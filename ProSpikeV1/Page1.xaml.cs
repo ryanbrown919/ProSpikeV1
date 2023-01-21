@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+/* Hi from Michael */
 namespace ProSpikeV1
 {
     /// <summary>
