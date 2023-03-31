@@ -4,17 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProSpikeV1"
+        xmlns:ControlTemplates="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="ProSpike" Height="800" Width="1300"  Topmost="False" WindowState="Normal" >
-    <Window.Resources>
+         
+        Title="ProSpike" x:Name ="ProSpikeMainWindow"  Height="1000" Width="1920" Topmost="False"  WindowState="Maximized" >
+    <!--Height="800" Width="1300"-->
 
+    <Window.Resources>
+        
         <!--<sys:String x:Key="mainTitle">Select a Set</sys:String>-->
         <Style TargetType="{x:Type Button}" >
-            <Setter Property="Width" Value="300"/>
+            <Setter Property="Width" Value="400"/>
             <Setter Property="Height" Value="70"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="BorderThickness" Value="0"/>
 
             <Style.Triggers>
@@ -24,27 +28,45 @@
             </Style.Triggers>
         </Style>
         <ControlTemplate x:Key="ButtonTemplate2" TargetType="{x:Type Button}">
-                <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                </Border>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="Button.IsDefaulted" Value="true">
-                        <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                    </Trigger>
-                    <Trigger Property="IsMouseOver" Value="true">
+            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="true">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
                     <Setter Property="Background" TargetName="border" Value="LightGray"/>
                     <Setter Property="BorderBrush" TargetName="border" Value="LightGray"/>
                 </Trigger>
-                    <Trigger Property="IsPressed" Value="true">
-                    <Setter Property="Background" TargetName="border" Value="Black"/>
-                    <Setter Property="BorderBrush" TargetName="border" Value="Black"/>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="Gray"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
                 </Trigger>
-                   
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="StartStopStyle" TargetType="ToggleButton">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Resources/play.png" Stretch="Uniform" TileMode="None"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked"
+              Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/Resources/stop.png"
+                      Stretch="Uniform"
+                      TileMode="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
 
-        
         <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF3C7FB1"/>
         <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
         <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
@@ -68,13 +90,32 @@
                     <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
                 </Trigger>-->
-                <Trigger Property="IsEnabled" Value="false">
+                <!--<Trigger Property="IsEnabled" Value="false">
                     <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
                     <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                </Trigger>
+                </Trigger>-->
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
+
+
+        <Style x:Key="MyToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid>
+                            <Image x:Name="ToggleButtonImage" Source="/Resources/play.png"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ToggleButtonImage" Property="Source" Value="/Resources/stop.png"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
 
@@ -92,9 +133,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="66*"/>
-            <ColumnDefinition Width="427*"/>
-            <ColumnDefinition Width="157*"/>
+            <ColumnDefinition Width="195*"/>
+            <ColumnDefinition Width="1193*"/>
+            <ColumnDefinition Width="532*"/>
         </Grid.ColumnDefinitions>
 
 
@@ -103,25 +144,25 @@
 
 
 
-        <Label x:Name="MainText" Content="Select a Set" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="243,5,0,5" FontSize="60" Grid.Column="1" Width="552"/>
+        <Label x:Name="MainText" Content="Select a Set" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="350,0,0,10" FontSize="60" Grid.Column="1" Width="552"/>
 
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PHBall"  Content="Power High Ball" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PHBall_Click" HorizontalAlignment="Left" MouseEnter="PHBall_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="ThirtyThree" Content="Thirty Three" Grid.Row="2" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="ThirtyThree_Click" HorizontalAlignment="Left" MouseEnter="ThirtyThree_MouseEnter" Height="70" Width="300"/>
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MHBall" Content="Middle High Ball" Grid.Row="3" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="MHBall_Click" HorizontalAlignment="Left" MouseEnter="MHBall_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MQuick" Content="Middle Quick" Grid.Row="4" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MQuick_Click" HorizontalAlignment="Left" MouseEnter="MQuick_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MSlide" Content="Middle Slide" Grid.Row="5" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MSlide_Click" HorizontalAlignment="Left" MouseEnter="MSlide_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="OHBall" Content="Offside High Ball" Grid.Row="6" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="OHBall_Click" HorizontalAlignment="Left" MouseEnter="OHBall_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="BackrowPipe" Content="Backrow Pipe" Grid.Row="7" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="BackrowPipe_Click" HorizontalAlignment="Left" MouseEnter="BackrowPipe_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="BackrowC" Content="Backrow C" Grid.Row="8" Grid.Column="2" Margin="4,0,0,0"   FontSize="36" Click="BackrowC_Click" HorizontalAlignment="Left" MouseEnter="BackrowC_MouseEnter" Height="70" Width="300" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom" Content="Custom" Grid.Row="9" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom_Click" HorizontalAlignment="Left" MouseEnter="Custom_MouseEnter"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PShoot" Content="Power Shoot" Grid.Row="1" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PShoot_Click" HorizontalAlignment="Left" MouseEnter="PShoot_MouseEnter" Height="70" Width="300" />
-        
-        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="SettingsPage" Height="100" Width="100" HorizontalAlignment="Center" Grid.RowSpan="2" Margin="0,18,0,0" VerticalAlignment="Top" Click="SettingsPage_Click">
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PHBall"  Content="Power High Ball" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PHBall_Click" HorizontalAlignment="Left" MouseEnter="PHBall_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="ThirtyThree" Content="Thirty Three" Grid.Row="2" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="ThirtyThree_Click" HorizontalAlignment="Left" MouseEnter="ThirtyThree_MouseEnter" Height="70" Width="400" />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MHBall" Content="Middle High Ball" Grid.Row="3" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="MHBall_Click" HorizontalAlignment="Left" MouseEnter="MHBall_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MQuick" Content="Middle Quick" Grid.Row="4" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MQuick_Click" HorizontalAlignment="Left" MouseEnter="MQuick_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MSlide" Content="Middle Slide" Grid.Row="5" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MSlide_Click" HorizontalAlignment="Left" MouseEnter="MSlide_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="OHBall" Content="Offside High Ball" Grid.Row="6" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="OHBall_Click" HorizontalAlignment="Left" MouseEnter="OHBall_MouseEnter" Height="70" Width="400" />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom1" Content="Custom 1" Grid.Row="7" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom1_Click" HorizontalAlignment="Left" MouseEnter="Custom1_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom2" Content="Custom 2" Grid.Row="8" Grid.Column="2" Margin="4,0,0,0"   FontSize="36" Click="Custom2_Click" HorizontalAlignment="Left" MouseEnter="Custom2_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom3" Content="Custom 3" Grid.Row="9" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom3_Click" HorizontalAlignment="Left" MouseEnter="Custom3_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PShoot" Content="Power Shoot" Grid.Row="1" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PShoot_Click" HorizontalAlignment="Left" MouseEnter="PShoot_MouseEnter" Height="70" Width="400"  />
+
+        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="SettingsPage" Height="82" Width="66" HorizontalAlignment="Center" Grid.RowSpan="2" Margin="0,18,0,0" VerticalAlignment="Top" Click="SettingsPage_Click">
             <Button.Background>
                 <ImageBrush ImageSource="/Resources/gear.png" Stretch="Uniform"/>
             </Button.Background>
         </Button>
-        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="Garbage" Height="48" Width="33" Grid.Row="8" HorizontalAlignment="Left" Margin="779,26,0,0" VerticalAlignment="Top" Click="Garbage_Click"  Grid.Column="1">
+        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="Garbage" Height="48" Width="33" Grid.Row="8" HorizontalAlignment="Left" Margin="779,0,0,0" Click="Garbage_Click"  Grid.Column="1">
             <Button.Background>
                 <ImageBrush ImageSource="/Resources/Garbage.png" Stretch="Uniform"/>
             </Button.Background>
@@ -134,10 +175,10 @@
 
         <Canvas x:Name="myCanvas"  Grid.Row="2" Grid.ColumnSpan="2" Margin="10,10,10,10" Grid.RowSpan="6">
             <Image Source="/Resources/Base.png" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Top" Height="380" Width="964" Canvas.Top="70.4"/>
-            <Image Name="volleyballIcon" Source="/Resources/volleyballSmall.png" Panel.ZIndex="1"/>
+            <Image Name="volleyballIcon" Source="/Resources/volleyballSmall.png" Panel.ZIndex="1" Canvas.Left="-84" Canvas.Top="2.4"/>
         </Canvas>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="9">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8" Margin="0,74,0,0" Grid.RowSpan="2">
             <Rectangle x:Name="s1" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
             <Rectangle x:Name="s2" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
             <Rectangle x:Name="s3"  HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
@@ -148,16 +189,27 @@
             <Rectangle x:Name="s8" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
         </StackPanel>
 
-        <Rectangle x:Name="c1" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c2" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c3" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c4" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c5" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c6" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c7" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c8" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c9" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
-        <Rectangle x:Name="c10" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Left" Width="4" Margin="0,4,0,4" />
+        <Rectangle x:Name="c1" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c2" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c3" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c4" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c5" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c6" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c7" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c8" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c9" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
+        <Rectangle x:Name="c10" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70" />
+
+        <ToggleButton   Name="StartStop" Style="{StaticResource MyToggleButtonStyle}" Checked="StartStop_Checked" Unchecked="StartStop_Unchecked" HorizontalAlignment="Center" Height="90" Margin="0,39,0,0" Grid.RowSpan="2" Grid.Row="8" VerticalAlignment="Top" Width="100"/>
+
+
+
+
+
+
+
+
+
 
     </Grid>
 </Window>

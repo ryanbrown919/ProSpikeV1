@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SharedDataModel.cs" />
     <Compile Include="Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
@@ -140,6 +141,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\backArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play.png" />
+    <Resource Include="Resources\stop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

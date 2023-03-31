@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
+using System.ComponentModel;
 //using System.Drawing;
 //using System.Drawing.Printing;
 using System.Windows.Forms;
@@ -31,7 +32,7 @@ namespace ProSpikeV1
     {
 
 
-        //public class SerialPort ; System.ComponentModel.Component
+        //public class SerialPort ; System.ComponentModel.Component;
 
         private Path myPath;
         private PathGeometry myPathGeometry;
@@ -40,17 +41,31 @@ namespace ProSpikeV1
         static float shrinkTime = 0.3f;
         //private Path bezPath;
         //private Image image;
-        //static SerialPort port;
+        static SerialPort port;
         List<int> sequence = new List<int>();
         //List<Color> colorList = new List<Color> { Colors.Red, Colors.Orange, Colors.Yellow, Colors.Blue, Colors.Green, };
-        string[] colours = { "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Cyan", "Violet" , "Magenta", "Lime"};
-        Dictionary<string, Color> colourList = new Dictionary<string, Color> { { "White", Colors.White},{ "Black", Colors.Black }, { "Red", Colors.Red }, { "Lime", Colors.Lime }, { "Magenta", Colors.Magenta }, { "Cyan", Colors.Cyan }, { "Orange", Colors.Orange }, { "Yellow", Colors.Yellow }, { "Indigo", Colors.Indigo }, { "Violet", Colors.Violet }, { "Blue", Colors.Blue }, { "Green", Colors.Green } };
+        string[] colours = { "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Cyan", "Violet" , "Brown", "Lime"};
+        Dictionary<string, Color> colourList = new Dictionary<string, Color> { { "White", Colors.White},{ "Black", Colors.Black }, { "Red", Colors.Red }, { "Lime", Colors.Lime }, { "Magenta", Colors.Magenta }, { "Cyan", Colors.Cyan }, { "Orange", Colors.Orange }, { "Brown", Colors.BurlyWood },  { "Yellow", Colors.Yellow }, { "Indigo", Colors.Indigo }, { "Violet", Colors.Violet }, { "Blue", Colors.Blue }, { "Green", Colors.Green } };
 
-       
+        //public AppViewModel AppViewModel { get; set; }
+        private SharedDataModel _dataModel;
 
+        private bool isRunning = false;
+        private int delay = 3000;
+        public int defaultStartx = 125;
+        public int defaultStarty = 225;
+        public int defaultEndx = 640;
+        public int defaultEndy = 400;
+        public bool custom = false;
         public MainWindow()
         {
+            
             InitializeComponent();
+            _dataModel = new SharedDataModel();
+            //AppViewModel viewModel = new AppViewModel();
+
+
+            //this.DataContext = viewModel;
 
             c1.Fill = new SolidColorBrush(colourList[colours[1]]);
             c2.Fill = new SolidColorBrush(colourList[colours[2]]);
@@ -62,25 +77,65 @@ namespace ProSpikeV1
             c8.Fill = new SolidColorBrush(colourList[colours[8]]);
             c9.Fill = new SolidColorBrush(colourList[colours[9]]);
             c10.Fill = new SolidColorBrush(colourList[colours[10]]);
-            /* if (port == null) { 
-                port = new SerialPort("COM5", 115200);
-                port.Open();
+            if (port == null) { 
+                //SerialPort port = new SerialPort("COM5", 115200);
+                 //port.Open();
 
 
-            }*/
-            /*void MainWindow_WindowClosed(object sender, WindowClosedEventArgs e)
-            {
-                if (port != null && port.IsOpen)
-                {
-                    port.Close();
-                }
-            }*/
+            }
+            
 
             //s1.Fill = new SolidColorBrush(red) ;
+            _dataModel.xSliderValue1 = 200;
+            _dataModel.ySliderValue1 = 300;
+            _dataModel.xSliderValue2 = 300;
+            _dataModel.ySliderValue2 = 300;
+            _dataModel.xSliderValue3 = 400;
+            _dataModel.ySliderValue3 = 300;
+            _dataModel.c1Controlx1 = 300;
+            _dataModel.c1Controly1 = -100;
+            _dataModel.c1Controlx2 = 300;
+            _dataModel.c1Controly2 = -100;
+            _dataModel.c2Controlx1 = 300;
+            _dataModel.c2Controly1 = -100;
+            _dataModel.c2Controlx2 = 300;
+            _dataModel.c2Controly2 = -100;
+            _dataModel.c3Controlx1 = 300;
+            _dataModel.c3Controly1 = -100;
+            _dataModel.c3Controlx2 = 300;
+            _dataModel.c3Controly2 = -100;
 
-
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+    this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+        /*public class AppViewModel : INotifyPropertyChanged
+        {
+            private double sliderValue;
+
+            public double SliderValue
+            {
+                get { return sliderValue; }
+                set
+                {
+                    sliderValue = value;
+                    OnPropertyChanged(nameof(SliderValue));
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }*/
+        //void MainWindow_WindowClosed(object sender, WindowClosedEventArgs e)
+        //{
+        //    if (port != null && port.IsOpen)
+        //    {
+        //        port.Close();
+        //    }
+        //}
+
         public void animateSeq(Rectangle targetBox, int size, float Time)
         {
            
@@ -232,7 +287,7 @@ namespace ProSpikeV1
         }
         private void DrawBezier(int startx, int starty, int endx, int endy, int controlx1, int controly1, int controlx2, int controly2)
         {
-            int tempx, tempy;
+            int tempx, tempy, temp2x, temp2y;
             int moveX = startx;
             int moveY = starty;
             if (myCanvas.Children.Count > 0)
@@ -241,20 +296,49 @@ namespace ProSpikeV1
                 if (lastElement is Path path && path.Tag as string == "bezier")
                     myCanvas.Children.RemoveAt(myCanvas.Children.Count - 1);
             }
-
-            if (startx > endx)
+            if (custom == false)
             {
-                tempx = endx;
-                tempy = endy;
-                endx = startx;
-                endy = starty;
-                startx = tempx;
-                starty = tempy;
-                moveX = endx;
-                moveY = endy;
+                if (startx > endx)
+                {
+                    tempx = endx;
+                    tempy = endy;
+                    endx = startx;
+                    endy = starty;
+                    startx = tempx;
+                    starty = tempy;
+                    moveX = endx;
+                    moveY = endy;
 
 
+                }
             }
+            else 
+            {
+                if (startx > endx)
+                {
+                    tempx = endx;
+                    tempy = endy;
+                    endx = startx;
+                    endy = starty;
+                    startx = tempx;
+                    starty = tempy;
+                    moveX = endx;
+                    moveY = endy;
+
+
+                }
+                else
+                {
+                    temp2x = controlx1;
+                    temp2y = controly1;
+                    controly1 = controly2;
+                    controlx1 = controlx2;
+                    controlx2 = temp2x;
+                    controly2 = temp2y;
+                }
+                custom = false;
+            }
+
 
             moveBall(moveX, moveY); //Not moving the ball
 
@@ -380,53 +464,121 @@ namespace ProSpikeV1
         }
         private void OHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            
             DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
             MainText.Content = OHBall.Content;
         }
 
-        private void BackrowPipe_Click(object sender, RoutedEventArgs e)
+        private void Custom1_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = BackrowPipe.Content;
+            //MainText.Content = BackrowPipe.Content;
+            //MainText.Content = "Coming Soon";
             sequence.Add(8);
             seqUpdate();
         }
-        private void BackrowPipe_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Custom1_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawBezier(0, 0, 0, 0, 0, 0, 0, 0);
-            moveBall(250, 100);
+            custom = true;
+            MainText.Content = "Custom 1";
+            DrawBezier((_dataModel.xSliderValue1+defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c1Controlx1, _dataModel.c1Controly1, _dataModel.c1Controlx2, _dataModel.c1Controly2);
+            //moveBall(-250, 100);
         }
 
-        private void BackrowC_Click(object sender, RoutedEventArgs e)
+        private void Custom2_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = BackrowC.Content;
+            //MainText.Content = "Custom 1";
+            //MainText.Content = BackrowC.Content;
             sequence.Add(9);
             seqUpdate();
         }
-        private void BackrowC_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Custom2_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawBezier(0, 0, 0, 0, 0, 0, 0, 0);
-            moveBall(250, 100);
+            custom = true;
+            DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
+
+            MainText.Content = "Custom 2";
         }
-        private void Custom_Click(object sender, RoutedEventArgs e)
+        private void Custom3_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = Custom.Content;
+            //MainText.Content = SettingsView.xVal;
+            //MainText.Content = "Coming Soon";
             sequence.Add(10);
             seqUpdate();
+            //StartStop.IsChecked = !StartStop.IsChecked;
 
         }
-        private void Custom_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Custom3_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawBezier(0, 0, 0, 0, 0, 0, 0, 0);
-            moveBall(250, 100);
+            custom = true;
+            DrawBezier((_dataModel.xSliderValue3 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c3Controlx1, _dataModel.c3Controly1, _dataModel.c3Controlx2, _dataModel.c3Controly2);
+
+            MainText.Content = "Custom 3";
+
         }
 
         private void SettingsPage_Click(object sender, RoutedEventArgs e)
         {
            
-            SettingsView setView = new SettingsView();
+            SettingsView setView = new SettingsView(_dataModel);
             setView.Show();
         }
 
-        
+        private async void StartStop_Checked(object sender, RoutedEventArgs e)
+        {
+
+            backArrow.IsEnabled = false;
+            Garbage.IsEnabled = false;
+            SerialPort serialPort = new SerialPort();
+            if (SerialPort.GetPortNames().Contains("COM4"))
+            {
+                serialPort.PortName = "COM4";
+            }
+            else if (SerialPort.GetPortNames().Contains("COM5"))
+            {
+                serialPort.PortName = "COM5";
+            }
+            else if (SerialPort.GetPortNames().Contains("COM3"))
+            {
+                serialPort.PortName = "COM3";
+            }
+            else
+            {
+                MainText.Content="Arduino not found.";
+                return;
+            }
+
+            serialPort.BaudRate = 115200;
+            serialPort.Open();
+
+            for (int i = 0; i < sequence.Count; i++)
+            {
+                if (StartStop.IsChecked == false)
+                {
+                    return;
+                }
+                //try
+                //{
+                    
+                    serialPort.Write(sequence[i].ToString());
+                    await Task.Delay(delay);
+                    
+                //}
+                //catch(Exception ex)
+                //{
+                    //MainText.Content=ex.Message;
+                //}
+            }
+            serialPort.Write("0");
+            serialPort.Close();
+            StartStop.IsChecked = false;
+            
+        }
+
+        private void StartStop_Unchecked(object sender, RoutedEventArgs e)
+        {
+            backArrow.IsEnabled = true;
+            Garbage.IsEnabled = true;
+            //if serialPort()
+        }
     }
 }
