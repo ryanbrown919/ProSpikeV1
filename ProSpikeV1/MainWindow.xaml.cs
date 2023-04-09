@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 //using System.Drawing;
 using System.Windows.Media.Animation;
+using System.Threading;
 
 namespace ProSpikeV1
 {
@@ -43,10 +44,13 @@ namespace ProSpikeV1
         //private Image image;
         static SerialPort port;
         List<int> sequence = new List<int>();
+        List<int> motorSpeed = new List<int>();
+        List<int> linAct = new List<int>();
         //List<Color> colorList = new List<Color> { Colors.Red, Colors.Orange, Colors.Yellow, Colors.Blue, Colors.Green, };
         string[] colours = { "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Cyan", "Violet" , "Brown", "Lime"};
         Dictionary<string, Color> colourList = new Dictionary<string, Color> { { "White", Colors.White},{ "Black", Colors.Black }, { "Red", Colors.Red }, { "Lime", Colors.Lime }, { "Magenta", Colors.Magenta }, { "Cyan", Colors.Cyan }, { "Orange", Colors.Orange }, { "Brown", Colors.BurlyWood },  { "Yellow", Colors.Yellow }, { "Indigo", Colors.Indigo }, { "Violet", Colors.Violet }, { "Blue", Colors.Blue }, { "Green", Colors.Green } };
 
+        public bool[] buttonActive = new bool[11];
         //public AppViewModel AppViewModel { get; set; }
         private SharedDataModel _dataModel;
 
@@ -57,13 +61,20 @@ namespace ProSpikeV1
         public int defaultEndx = 640;
         public int defaultEndy = 400;
         public bool custom = false;
+        public string homePoint = "14";
         public MainWindow()
         {
             
             InitializeComponent();
             _dataModel = new SharedDataModel();
             //AppViewModel viewModel = new AppViewModel();
-
+            _dataModel.SelectedComboBoxIndex = 0;
+            //_dataModel.xSliderValue1= 600;
+            //_dataModel.ySliderValue1= 325;
+            //_dataModel.xSliderValue2 = 0;
+            //_dataModel.ySliderValue2 = 325;
+            //_dataModel.xSliderValue3 = 250;
+            //_dataModel.ySliderValue3 = 325;
 
             //this.DataContext = viewModel;
 
@@ -83,10 +94,17 @@ namespace ProSpikeV1
 
 
             }
-            
+            _dataModel.custom1 = false;
+            _dataModel.custom2 = false;
+            _dataModel.custom3 = false;
+
+
+            Custom1.IsEnabled = _dataModel.custom1;
+            Custom2.IsEnabled = _dataModel.custom2;
+            Custom3.IsEnabled = _dataModel.custom3;
 
             //s1.Fill = new SolidColorBrush(red) ;
-            _dataModel.xSliderValue1 = 200;
+            _dataModel.xSliderValue1 = 600;
             _dataModel.ySliderValue1 = 300;
             _dataModel.xSliderValue2 = 300;
             _dataModel.ySliderValue2 = 300;
@@ -104,38 +122,21 @@ namespace ProSpikeV1
             _dataModel.c3Controly1 = -100;
             _dataModel.c3Controlx2 = 300;
             _dataModel.c3Controly2 = -100;
-
-    this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //_dataModel.AreButtonsEnabled = false;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-        /*public class AppViewModel : INotifyPropertyChanged
+        
+        public void activeButtonReset(int index)
         {
-            private double sliderValue;
-
-            public double SliderValue
+            for (int i = 1; i < 11; i++)
             {
-                get { return sliderValue; }
-                set
+                if (i != index)
                 {
-                    sliderValue = value;
-                    OnPropertyChanged(nameof(SliderValue));
+                    buttonActive[i] = false;
                 }
             }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void OnPropertyChanged(string propertyName)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }*/
-        //void MainWindow_WindowClosed(object sender, WindowClosedEventArgs e)
-        //{
-        //    if (port != null && port.IsOpen)
-        //    {
-        //        port.Close();
-        //    }
-        //}
-
+            
+        }
         public void animateSeq(Rectangle targetBox, int size, float Time)
         {
            
@@ -373,152 +374,264 @@ namespace ProSpikeV1
         // drawArc(xradius, yradius, xterminalpoint, yterminalpoint, beginningx, beginningy)
         private void PHBall_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = PHBall.Content;
-            DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
-            sequence.Add(1);
+            if (buttonActive[1] == false)
+            {
+                buttonActive[1] = true;
+                activeButtonReset(1);
+                MainText.Content = PHBall.Content;
+                DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
+            }
+            else
+            {
+                
+                sequence.Add(1);
+                motorSpeed.Add(24);
+                linAct.Add(20);
 
-            seqUpdate();
+                seqUpdate();
+            }
         }
         private void PHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainText.Content = PHBall.Content;
-            DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
-
+            //MainText.Content = PHBall.Content;
+            //DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
+            
         }
 
         private void PShoot_Click(object sender, RoutedEventArgs e)
         {
-            
-            MainText.Content = PShoot.Content;
-            DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
-            //port.Write("2");
-            sequence.Add(2);
-            seqUpdate();
-
+            if (buttonActive[2] == false)
+            {
+                buttonActive[2] = true;
+                activeButtonReset(2);
+                MainText.Content = PShoot.Content;
+                DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
+            }
+            else
+            {
+                
+                //port.Write("2");
+                sequence.Add(2);
+                seqUpdate();
+                motorSpeed.Add(54);
+                linAct.Add(25);
+            }
         }
         private void PShoot_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainText.Content = PShoot.Content;
-            DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
+            //MainText.Content = PShoot.Content;
+            //DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
         }
 
         private void ThirtyThree_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = ThirtyThree.Content;
-            DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
-            sequence.Add(3);
-            seqUpdate();
+            if (buttonActive[3] == false)
+            {
+                buttonActive[3] = true;
+                activeButtonReset(3);
+                MainText.Content = ThirtyThree.Content;
+                DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
+            }
+            else
+            {
+                
+                sequence.Add(3);
+                seqUpdate();
+                motorSpeed.Add(50);
+                linAct.Add(23);
+            }
         }
         private void ThirtyThree_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainText.Content = ThirtyThree.Content;
-            DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
+            //MainText.Content = ThirtyThree.Content;
+            //DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
         }
 
         private void MHBall_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = MHBall.Content;
-            DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
-            //DrawBezier();
-            sequence.Add(4);
-            seqUpdate();
+            if (buttonActive[4] == false)
+            {
+                buttonActive[4] = true;
+                activeButtonReset(4);
+                MainText.Content = MHBall.Content;
+                DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
+            }
+            else
+            {
+                
+                //DrawBezier();
+                sequence.Add(4);
+                seqUpdate();
+                motorSpeed.Add(50);
+                linAct.Add(23);
+            }
         }
         private void MHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainText.Content = MHBall.Content;
-            DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
+            //MainText.Content = MHBall.Content;
+            //DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
         }
 
         private void MQuick_Click(object sender, RoutedEventArgs e)
         {
-            MainText.Content = MQuick.Content;
-            DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
-            sequence.Add(5);
-            seqUpdate();
+            if (buttonActive[5] == false)
+            {
+                buttonActive[5] = true;
+                activeButtonReset(5);
+                MainText.Content = MQuick.Content;
+                DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
+            }
+            else
+            {
+                
+                sequence.Add(5);
+                seqUpdate();
+                motorSpeed.Add(50);
+                linAct.Add(23);
+            }
+
         }
         private void MQuick_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainText.Content = MQuick.Content;
-            DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
+            //MainText.Content = MQuick.Content;
+            //DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
         }
 
         private void MSlide_Click(object sender, RoutedEventArgs e)
         {
-            DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
-            MainText.Content = MSlide.Content;
-            sequence.Add(6);
-            seqUpdate();
+            if (buttonActive[6] == false)
+            {
+                buttonActive[6] = true;
+                activeButtonReset(6);
+                DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
+                MainText.Content = MSlide.Content;
+            }
+            else
+            {
+                
+                sequence.Add(6);
+                seqUpdate();
+                motorSpeed.Add(50);
+                linAct.Add(23);
+            }
         }
         private void MSlide_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
-            MainText.Content = MSlide.Content;
+            //DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
+            //MainText.Content = MSlide.Content;
         }
 
         private void OHBall_Click(object sender, RoutedEventArgs e)
         {
-            DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
-            MainText.Content = OHBall.Content;
-            sequence.Add(7);
-            seqUpdate();
+            if (buttonActive[7] == false)
+            {
+                buttonActive[7] = true;
+                activeButtonReset(7);
+                DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
+                MainText.Content = OHBall.Content;
+            }
+            else
+            {
+                
+                sequence.Add(7);
+                seqUpdate();
+                motorSpeed.Add(50);
+                linAct.Add(23);
+            }
         }
         private void OHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             
-            DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
-            MainText.Content = OHBall.Content;
+            //DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
+            //MainText.Content = OHBall.Content;
         }
 
         private void Custom1_Click(object sender, RoutedEventArgs e)
         {
-            //MainText.Content = BackrowPipe.Content;
-            //MainText.Content = "Coming Soon";
-            sequence.Add(8);
-            seqUpdate();
+            //custom = false;
+            if (buttonActive[8] == false)
+            {
+                buttonActive[8] = true;
+                activeButtonReset(8);
+                custom = true;
+                MainText.Content = "Custom 1";
+                DrawBezier((_dataModel.xSliderValue1 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c1Controlx1, _dataModel.c1Controly1, _dataModel.c1Controlx2, _dataModel.c1Controly2);
+
+            }
+            else
+            {
+                int y = defaultEndy - _dataModel.c1Controly1;
+                int x = defaultEndx - _dataModel.c1Controlx1;
+
+                sequence.Add(8);
+                seqUpdate();
+            }
         }
         private void Custom1_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            custom = true;
-            MainText.Content = "Custom 1";
-            DrawBezier((_dataModel.xSliderValue1+defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c1Controlx1, _dataModel.c1Controly1, _dataModel.c1Controlx2, _dataModel.c1Controly2);
+            //custom = true;
             //moveBall(-250, 100);
         }
 
         private void Custom2_Click(object sender, RoutedEventArgs e)
         {
-            //MainText.Content = "Custom 1";
-            //MainText.Content = BackrowC.Content;
-            sequence.Add(9);
-            seqUpdate();
+            //custom = false;
+            if (buttonActive[9] == false)
+            {
+                buttonActive[9] = true;
+                activeButtonReset(9);
+                custom = true;
+                MainText.Content = "Custom 2";
+                DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
+
+            }
+            else
+            {
+                //MainText.Content = "Custom 1";
+                
+                //DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
+
+                sequence.Add(9);
+                seqUpdate();
+            }
         }
         private void Custom2_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            custom = true;
-            DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
 
-            MainText.Content = "Custom 2";
+            //MainText.Content = "Custom 2";
         }
         private void Custom3_Click(object sender, RoutedEventArgs e)
         {
-            //MainText.Content = SettingsView.xVal;
-            //MainText.Content = "Coming Soon";
-            sequence.Add(10);
-            seqUpdate();
-            //StartStop.IsChecked = !StartStop.IsChecked;
+            //custom = false;
+            if (buttonActive[10] == false)
+            {
+                buttonActive[10] = true;
+                activeButtonReset(10);
+                MainText.Content = "Custom 3";
+                custom = true;
+                DrawBezier((_dataModel.xSliderValue3 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c3Controlx1, _dataModel.c3Controly1, _dataModel.c3Controlx2, _dataModel.c3Controly2);
+
+            }
+            else
+            {
+                sequence.Add(10);
+                
+                seqUpdate();
+            }
 
         }
         private void Custom3_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            custom = true;
-            DrawBezier((_dataModel.xSliderValue3 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c3Controlx1, _dataModel.c3Controly1, _dataModel.c3Controlx2, _dataModel.c3Controly2);
-
-            MainText.Content = "Custom 3";
+            
+            //MainText.Content = "Custom 3";
 
         }
 
         private void SettingsPage_Click(object sender, RoutedEventArgs e)
         {
-           
+            Custom1.IsEnabled = true;
+            Custom2.IsEnabled = true;
+            Custom3.IsEnabled = true;
             SettingsView setView = new SettingsView(_dataModel);
             setView.Show();
         }
@@ -547,7 +660,10 @@ namespace ProSpikeV1
                 return;
             }
 
-            serialPort.BaudRate = 115200;
+            string data;
+            string response = "";
+            int timeout = (int)_dataModel.userDelay *1000;
+            serialPort.BaudRate = 9600;
             serialPort.Open();
 
             for (int i = 0; i < sequence.Count; i++)
@@ -558,17 +674,35 @@ namespace ProSpikeV1
                 }
                 //try
                 //{
-                    
-                    serialPort.Write(sequence[i].ToString());
-                    await Task.Delay(delay);
-                    
+                data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+".";
+                serialPort.Write(data);
+                DateTime start = DateTime.Now;
+                //serialPort.Write(sequence[i].ToString());
+                while ((DateTime.Now - start).TotalMilliseconds < timeout)
+                {
+                    // Check if a message has been received
+                    if (response.Contains("Ready"))
+                    {
+                        // Do something with the response
+                        break;
+                    }
+                    if (StartStop.IsChecked == false)
+                    {
+                        serialPort.Write("0," + homePoint + ".5");
+                        serialPort.Close();
+                        return;
+                    }
+
+                    // Wait for 100 milliseconds before checking again
+                    Thread.Sleep(100);
+                }
                 //}
                 //catch(Exception ex)
                 //{
-                    //MainText.Content=ex.Message;
+                //MainText.Content=ex.Message;
                 //}
             }
-            serialPort.Write("0");
+            serialPort.Write("0,"+homePoint+".5");
             serialPort.Close();
             StartStop.IsChecked = false;
             

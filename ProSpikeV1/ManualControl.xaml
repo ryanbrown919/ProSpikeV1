@@ -1,13 +1,12 @@
-﻿<Window x:Class="ProSpikeV1.SettingsView"
+﻿<Window x:Class="ProSpikeV1.ManualControl"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProSpikeV1"
-        Closing="SettingsView_Closing"
-        Activated="Window_Activated"
         mc:Ignorable="d"
-        Title="Settings" Height="850" Width="1600" WindowState="Maximized">
+        Closing="ManualControl_Closing"
+        Title="ManualControl" Height="450" Width="800" Background="White">
     <Window.Resources>
 
         <Style TargetType="{x:Type Button}" >
@@ -398,63 +397,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background1" Color="#FFBEE6FD"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border1" Color="#FF3C7FB1"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background1" Color="#FFC4E5F6"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border1" Color="#FF2C628B"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background1" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border1" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground1" Color="#FF838383"/>
-        <Style x:Key="settingsToggleButtons" TargetType="{x:Type ToggleButton}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <!--<Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>-->
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="Button.IsDefaulted" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background1}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background1}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background1}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border1}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background1}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border1}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground1}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <!--Checkbox styling-->
 
 
@@ -465,48 +407,23 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="461*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
 
-            <ColumnDefinition Width="1459*"/>
+
         </Grid.ColumnDefinitions>
-        <Label Content=""/>
-        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="backArrowSettings" Height="71" Width="55" HorizontalAlignment="Left" Grid.RowSpan="1" Margin="10,10,0,0" VerticalAlignment="Top" Click="backArrowSettings_Click">
-            <Button.Background>
-                <ImageBrush ImageSource="/Resources/backArrow.png" Stretch="Uniform"/>
-            </Button.Background>
-        </Button>
-        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="manualControl" Height="71" Opacity="0.1" Width="55" HorizontalAlignment="Left" Margin="1073,12,0,0" VerticalAlignment="Top" Click="manualControl_Click" Grid.Column="1">
-            <Button.Background>
-                <ImageBrush ImageSource="/Resources/debug.png" Stretch="Uniform"/>
-            </Button.Background>
-        </Button>
+        <Slider Style="{DynamicResource SliderStyle1}" x:Name="linAct" IsSnapToTickEnabled="True" HorizontalAlignment="Center" Margin="0,41,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="40" Height="300" Maximum="20"  Orientation="Vertical" Panel.ZIndex="1" ValueChanged="linAct_ValueChanged"/>
+        <Slider Style="{DynamicResource SliderStyle1}" x:Name="motorSpeed" Value="0" IsSnapToTickEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0,41,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="40" Height="300" Maximum="127"  Orientation="Vertical" Panel.ZIndex="1" ValueChanged="motorSpeed_ValueChanged"/>
 
-        <Canvas x:Name="myCanvas"  Grid.Row="2" Margin="157,60,34,60" Grid.RowSpan="7" Grid.Column="1">
-            <Image Source="/Resources/Base.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Center" Height="380" Width="964" Canvas.Top="57.997" Canvas.Left="16"/>
-            <Image Name="volleyballIcon" Source="/Resources/volleyballSmall.png" Panel.ZIndex="1" Canvas.Left="117" Canvas.Top="196" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        </Canvas>
-        <Label Grid.Column="1" x:Name="settingsLabel" Content="Custom Sets " HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" FontSize="60" Width="486" HorizontalContentAlignment="Center" Height="90"/>
-        <Slider Style="{DynamicResource SliderStyle1}" x:Name="xSlider" Grid.Column="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="293,33,0,0" Grid.Row="8" VerticalAlignment="Top" Width="720" Height="40" Panel.ZIndex="1" Maximum="700" Minimum="0" ValueChanged="xSlider_ValueChanged" />
-
-        <Slider Style="{DynamicResource SliderStyle1}" x:Name="ySlider" Grid.Column="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="1066,0,0,0" Grid.Row="2" Grid.RowSpan="4" VerticalAlignment="Top" Width="40" Height="300" Maximum="325" Orientation="Vertical" Panel.ZIndex="1" ValueChanged="ySlider_ValueChanged"/>
-        <ComboBox x:Name="CustomSetBox" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Width="350" Height="83" Margin="65,0,0,0" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="40" SelectionChanged="CustomSet_SelectionChanged">
-            <ComboBoxItem IsSelected="True">Custom 1</ComboBoxItem>
-            <ComboBoxItem >Custom 2</ComboBoxItem>
-            <ComboBoxItem>Custom 3</ComboBoxItem>
-        </ComboBox>
-        <Slider Style="{DynamicResource SliderStyle1}" x:Name="timerSlider" ValueChanged="timerSlider_ValueChanged" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="40,40,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="400" Height="63" Maximum="30" Grid.RowSpan="2"/>
-        <Label HorizontalAlignment="Left" Margin="40,76,0,0" Grid.Row="1" x:Name="timerBox" Content="Time between sets:" VerticalAlignment="Top" Height="42" Width="449" FontSize="30" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-        <ToggleButton Style="{DynamicResource settingsToggleButtons}" x:Name ="netHeight" FontSize="30" Content="Men's Net Height" IsChecked="True"  HorizontalAlignment="Left" Height="63" Margin="80,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="319" Unchecked="netHeight_Unchecked" Checked="netHeight_Checked" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        <ToggleButton Style="{DynamicResource settingsToggleButtons}" x:Name ="demoMode" Content="Demo Mode" HorizontalAlignment="Left" FontSize="30" Height="63" Margin="82,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="316" Checked="demoMode_Checked" Unchecked="demoMode_Unchecked" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-
+        <Button x:Name="SetSliders" Grid.Column="2" Content="Set Sliders" HorizontalAlignment="Center" FontSize="30" Height="62" Width="206" Click="SetSliders_Click"/>
+        <Button x:Name="LoadBall" Grid.Column="2" Content="Load Ball" HorizontalAlignment="Center" FontSize="30" Height="71" Width="206" Grid.Row="1" Click="LoadBall_Click"/>
+        <Button x:Name="LaunchBall" Grid.Column="2" Content="Launch Ball" HorizontalAlignment="Center" FontSize="30" Height="60" Width="206" Grid.Row="2" Margin="0,41,0,0" VerticalAlignment="Top" Click="LaunchBall_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="71,72,0,0" Grid.Row="2" x:Name="linActTextBox" TextWrapping="Wrap"  VerticalAlignment="Top" Height="20" Width="237" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Left" Margin="72,72,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding ElementName=motorSpeed, Path=Value, StringFormat='Motor Speed: {0}/127'}" VerticalAlignment="Top" Height="20" Width="237" Grid.ColumnSpan="2" Grid.Column="1"/>
     </Grid>
 </Window>

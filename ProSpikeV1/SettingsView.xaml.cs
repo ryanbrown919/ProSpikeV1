@@ -15,6 +15,7 @@ using System.ComponentModel;
 using static ProSpikeV1.MainWindow;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Diagnostics;
 
 namespace ProSpikeV1
 {
@@ -37,7 +38,7 @@ namespace ProSpikeV1
         double newControly1 = 300;
         double newControly2 = -100;
         double xVal;
-
+        private bool _ignoreFirstSelectionChange = true;
         private SharedDataModel _dataModel;
         //private SharedDataModel sharedData = new SharedDataModel();
         public SettingsView(SharedDataModel dataModel)
@@ -45,16 +46,67 @@ namespace ProSpikeV1
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             _dataModel = dataModel;
+
             //_dataModel = new SharedDataModel();
             //xSlider.Value = _dataModel.xSliderValue1;
             //ySlider.Value = _dataModel.ySliderValue1;
-            CustomSetBox.SelectedIndex = 0;
+            //CustomSetBox.SelectedIndex = _dataModel.SelectedComboBoxIndex;
+            //settingsLabel.Content = _dataModel.xSliderValue1.ToString();
+            Debug.WriteLine($"xSlider.Value set to {_dataModel.xSliderValue1}");
             
+            //_dataModel.xSliderValue1 = 600;
+            Debug.WriteLine($"xSlider.Value set to {_dataModel.xSliderValue1}");
+            //switch (CustomSetBox.SelectedIndex)
+            //{
+            //    case 0:
+            //        xSlider.Value = _dataModel.xSliderValue1;
+            //        ySlider.Value = _dataModel.ySliderValue1;
+            //        _dataModel.custom1 = true;
+            //        //_dataModel.AreButtonsEnabled = true ;
+            //        break;
+            //    case 1:
+            //        xSlider.Value = _dataModel.xSliderValue2;
+            //        ySlider.Value = _dataModel.ySliderValue2;
+            //        _dataModel.custom2 = true;
+            //        break;
+            //    case 2:
+            //        xSlider.Value = _dataModel.xSliderValue3;
+            //        ySlider.Value = _dataModel.ySliderValue3;
+            //        _dataModel.custom3 = true;
+            //        break;
+            //        // Add more cases as needed for each ComboBox item
+            //}
+            //xSlider.Value = _dataModel.xSliderValue1;
+            //ySlider.Value = _dataModel.ySliderValue1;
+            timerSlider.Value = _dataModel.userDelay;
             //DrawBezier(150, 225, 640, 400, 300, -100, 500, -100); Default Power High Ball confugurations
-
+            xSlider.Value += 1;
+            ySlider.Value += 1; 
+            xSlider.Value -= 1;
+            ySlider.Value -= 1;
             //DrawBezier(defaultStartx, defaultStarty, defaultEndx, defaultEndy, defaultControlx1, defaultControly1, defaultControlx2, defaultControly2); 
         }
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Window Activated");
+            switch (_dataModel.SelectedComboBoxIndex)
+            {
+                case 0:
+                    xSlider.Value = _dataModel.xSliderValue1;
+                    ySlider.Value = _dataModel.ySliderValue1;
+                    break;
+                case 1:
+                    xSlider.Value = _dataModel.xSliderValue2;
+                    ySlider.Value = _dataModel.ySliderValue2;
+                    break;
+                case 2:
+                    xSlider.Value = _dataModel.xSliderValue3;
+                    ySlider.Value = _dataModel.ySliderValue3;
+                    break;
 
+            }
+            CustomSetBox.SelectedIndex = _dataModel.SelectedComboBoxIndex;
+        }
         private void backArrowSettings_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -76,7 +128,7 @@ namespace ProSpikeV1
             DrawBezier(xVal, defaultStarty, defaultEndx, defaultEndy, newControlx1, newControly1, newControlx2, newControly2);
             //_dataModel.ySliderValue = (int)ySlider.Value;
             //CustomSet_SelectionChanged(null, null);
-            CustomSet_UpdateModel((int)xSlider.Value, (325 - (int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
+            //CustomSet_UpdateModel((int)xSlider.Value, (325 - (int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
         }
 
 
@@ -96,7 +148,7 @@ namespace ProSpikeV1
             DrawBezier(xVal, defaultStarty, defaultEndx, defaultEndy, newControlx1, newControly1, newControlx2, newControly2);
             //_dataModel.xSliderValue = (int)xSlider.Value;
             //CustomSet_SelectionChanged(null, null);
-            CustomSet_UpdateModel((int)xSlider.Value, (325 - (int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
+            //CustomSet_UpdateModel((int)xSlider.Value, (325 - (int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
         }
         private void DrawBezier(double startx, double starty, double endx, double endy, double controlx1, double controly1, double controlx2, double controly2)
         {
@@ -161,22 +213,32 @@ namespace ProSpikeV1
 
 
         }
-
+        
         public void CustomSet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_ignoreFirstSelectionChange)
+            {
+                _ignoreFirstSelectionChange = false;
+                return;
+            }
+            CustomSet_UpdateModel((int)xSlider.Value, ((int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
             switch (CustomSetBox.SelectedIndex)
             {
                 case 0:
                     xSlider.Value = _dataModel.xSliderValue1;
                     ySlider.Value = _dataModel.ySliderValue1;
+                    _dataModel.custom1 = true;
+                    //_dataModel.AreButtonsEnabled = true ;
                     break;
                 case 1:
                     xSlider.Value = _dataModel.xSliderValue2;
                     ySlider.Value = _dataModel.ySliderValue2;
+                    _dataModel.custom2 = true;
                     break;
                 case 2:
                     xSlider.Value = _dataModel.xSliderValue3;
                     ySlider.Value = _dataModel.ySliderValue3;
+                    _dataModel.custom3 = true;
                     break;
                     // Add more cases as needed for each ComboBox item
             }
@@ -185,7 +247,7 @@ namespace ProSpikeV1
         
         private void CustomSet_UpdateModel(int valx, int valy, int newControlx1, int newControly1, int newControlx2, int newControly2)
         {
-            switch (CustomSetBox.SelectedIndex)
+            switch (_dataModel.SelectedComboBoxIndex)
             {
                 case 0:
                     _dataModel.xSliderValue1 = valx;
@@ -213,7 +275,51 @@ namespace ProSpikeV1
                     break;
                     // Add more cases as needed for each ComboBox item
             }
+
         }
-        
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void manualControl_Click(object sender, RoutedEventArgs e)
+        {
+            ManualControl manual = new ManualControl(_dataModel);
+            manual.Show();
+        }
+
+        public void timerSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            timerBox.Content = $"Time between sets: {timerSlider.Value + 7} seconds";
+            
+            _dataModel.userDelay = timerSlider.Value;
+        }
+        private void SettingsView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _dataModel.SelectedComboBoxIndex = CustomSetBox.SelectedIndex;
+            _ignoreFirstSelectionChange = true;
+            CustomSet_UpdateModel((int)xSlider.Value, ((int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
+        }
+
+        private void netHeight_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _dataModel.netHeightVal = (bool)netHeight.IsChecked;
+        }
+
+        private void demoMode_Checked(object sender, RoutedEventArgs e)
+        {
+            _dataModel.demoModeVal = (bool)demoMode.IsChecked;
+        }
+
+        private void netHeight_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void demoMode_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
