@@ -504,7 +504,7 @@
             <ComboBoxItem>Custom 3</ComboBoxItem>
         </ComboBox>
         <Slider Style="{DynamicResource SliderStyle1}" x:Name="timerSlider" ValueChanged="timerSlider_ValueChanged" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="40,40,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="400" Height="63" Maximum="30" Grid.RowSpan="2"/>
-        <Label HorizontalAlignment="Left" Margin="40,76,0,0" Grid.Row="1" x:Name="timerBox" Content="Time between sets:" VerticalAlignment="Top" Height="42" Width="449" FontSize="30" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <Label HorizontalAlignment="Left" Margin="40,71,0,0" Grid.Row="1" x:Name="timerBox" Content="Time between sets:" VerticalAlignment="Top" Height="42" Width="449" FontSize="30" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
         <ToggleButton Style="{DynamicResource settingsToggleButtons}" x:Name ="netHeight" FontSize="30" Content="Men's Net Height" IsChecked="True"  HorizontalAlignment="Left" Height="63" Margin="80,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="319" Unchecked="netHeight_Unchecked" Checked="netHeight_Checked" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         <ToggleButton Style="{DynamicResource settingsToggleButtons}" x:Name ="demoMode" Content="Demo Mode" HorizontalAlignment="Left" FontSize="30" Height="63" Margin="82,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="316" Checked="demoMode_Checked" Unchecked="demoMode_Unchecked" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
 
