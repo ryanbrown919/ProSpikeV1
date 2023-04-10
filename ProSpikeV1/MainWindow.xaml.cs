@@ -397,7 +397,39 @@ namespace ProSpikeV1
 
         }
 
-        
+        public void resetSeq()
+        {
+            for (int i = 0; i <= sequence.Count; i++)
+            {
+                switch (i)
+                {
+                    case 1:
+                        animateSeq(s1, sizeGrow, shrinkTime);
+                        break;
+                    case 2:
+                        animateSeq(s2, sizeGrow, shrinkTime);
+                        break;
+                    case 3:
+                        animateSeq(s3, sizeGrow, shrinkTime);
+                        break;
+                    case 4:
+                        animateSeq(s4, sizeGrow, shrinkTime);
+                        break;
+                    case 5:
+                        animateSeq(s5, sizeGrow, shrinkTime);
+                        break;
+                    case 6:
+                        animateSeq(s6, sizeGrow, shrinkTime);
+                        break;
+                    case 7:
+                        animateSeq(s7, sizeGrow, shrinkTime);
+                        break;
+                    case 8:
+                        animateSeq(s8, sizeGrow, shrinkTime);
+                        break;
+                }
+            }
+        }
         public void drawSeq(int index, int set)
         {
             switch (index) { 
@@ -777,6 +809,7 @@ namespace ProSpikeV1
         private async void StartStop_Checked(object sender, RoutedEventArgs e)
         {
             resetSel();
+            resetSeq();
             //backArrow.IsEnabled = false;
             //Garbage.IsEnabled = false;
             //SerialPort serialPort = new SerialPort();
@@ -847,6 +880,7 @@ namespace ProSpikeV1
 
         private void StartStop_Unchecked(object sender, RoutedEventArgs e)
         {
+            resetSeq();
             backArrow.IsEnabled = true;
             Garbage.IsEnabled = true;
             //if serialPort()
