@@ -34,6 +34,7 @@ namespace ProSpikeV1
             InitializeComponent();
             _dataModel = dataModel;
             linAct.Value = 9;
+
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             if (SerialPort.GetPortNames().Contains("COM4"))

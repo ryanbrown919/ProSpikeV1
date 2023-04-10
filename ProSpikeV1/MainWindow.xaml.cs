@@ -47,8 +47,8 @@ namespace ProSpikeV1
         List<int> motorSpeed = new List<int>();
         List<int> linAct = new List<int>();
         //List<Color> colorList = new List<Color> { Colors.Red, Colors.Orange, Colors.Yellow, Colors.Blue, Colors.Green, };
-        string[] colours = { "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Cyan", "Violet" , "Brown", "Lime"};
-        Dictionary<string, Color> colourList = new Dictionary<string, Color> { { "White", Colors.White},{ "Black", Colors.Black }, { "Red", Colors.Red }, { "Lime", Colors.Lime }, { "Magenta", Colors.Magenta }, { "Cyan", Colors.Cyan }, { "Orange", Colors.Orange }, { "Brown", Colors.BurlyWood },  { "Yellow", Colors.Yellow }, { "Indigo", Colors.Indigo }, { "Violet", Colors.Violet }, { "Blue", Colors.Blue }, { "Green", Colors.Green } };
+        string[] colours = { "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Cyan", "Violet", "Brown", "Lime" };
+        Dictionary<string, Color> colourList = new Dictionary<string, Color> { { "White", Colors.White }, { "Black", Colors.Black }, { "Red", Colors.Red }, { "Lime", Colors.Lime }, { "Magenta", Colors.Magenta }, { "Cyan", Colors.Cyan }, { "Orange", Colors.Orange }, { "Brown", Colors.BurlyWood }, { "Yellow", Colors.Yellow }, { "Indigo", Colors.Indigo }, { "Violet", Colors.Violet }, { "Blue", Colors.Blue }, { "Green", Colors.Green } };
 
         public bool[] buttonActive = new bool[11];
         //public AppViewModel AppViewModel { get; set; }
@@ -62,9 +62,10 @@ namespace ProSpikeV1
         public int defaultEndy = 400;
         public bool custom = false;
         public string homePoint = "14";
+        public int sizeGrow = 70;
         public MainWindow()
         {
-            
+
             InitializeComponent();
             _dataModel = new SharedDataModel();
             //AppViewModel viewModel = new AppViewModel();
@@ -88,9 +89,9 @@ namespace ProSpikeV1
             c8.Fill = new SolidColorBrush(colourList[colours[8]]);
             c9.Fill = new SolidColorBrush(colourList[colours[9]]);
             c10.Fill = new SolidColorBrush(colourList[colours[10]]);
-            if (port == null) { 
+            if (port == null) {
                 //SerialPort port = new SerialPort("COM5", 115200);
-                 //port.Open();
+                //port.Open();
 
 
             }
@@ -125,7 +126,7 @@ namespace ProSpikeV1
             //_dataModel.AreButtonsEnabled = false;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-        
+
         public void activeButtonReset(int index)
         {
             for (int i = 1; i < 11; i++)
@@ -135,11 +136,11 @@ namespace ProSpikeV1
                     buttonActive[i] = false;
                 }
             }
-            
+
         }
         public void animateSeq(Rectangle targetBox, int size, float Time)
         {
-           
+
             DoubleAnimation heightAnimation = new DoubleAnimation();
             heightAnimation.From = targetBox.Height;
             heightAnimation.To = size; // Set the final height of the rectangle
@@ -151,10 +152,25 @@ namespace ProSpikeV1
             storyboard.Begin();
 
         }
+        public void animateSel(Rectangle targetBox, int size, float Time)
+        {
+
+            DoubleAnimation widthAnimation = new DoubleAnimation();
+            widthAnimation.From = targetBox.Width;
+
+            widthAnimation.To = size; // Set the final height of the rectangle
+            widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(Time / 1.5));
+            Storyboard storyboardSel = new Storyboard();
+            storyboardSel.Children.Add(widthAnimation);
+            Storyboard.SetTarget(widthAnimation, targetBox);
+            Storyboard.SetTargetProperty(widthAnimation, new PropertyPath(System.Windows.Shapes.Rectangle.WidthProperty));
+            storyboardSel.Begin();
+
+        }
         public void seqUpdate()
         {
             int tempLen = sequence.Count;
-            int sizeGrow = 100;
+            
             //if (tempLen < 8)
             //{
             if (sequence.Count > 8)
@@ -177,28 +193,40 @@ namespace ProSpikeV1
             List<int> Zeros = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
 
             //List<int> tempList = new List<int>
-            for (int j = 0; j < tempLen; j++){
+            for (int j = 0; j < tempLen; j++) {
 
-                Zeros[j] +=  + sequence[j];
+                Zeros[j] += +sequence[j];
             }
 
             //for (int i = 0; i <= sequence.Count; i++)
             //{
 
-            
 
-                // Get the i-th element that represents the button order
-                s1.Fill = new SolidColorBrush(colourList[colours[Zeros[0]]]);
-                s2.Fill = new SolidColorBrush(colourList[colours[Zeros[1]]]);
-                s3.Fill = new SolidColorBrush(colourList[colours[Zeros[2]]]);
-                s4.Fill = new SolidColorBrush(colourList[colours[Zeros[3]]]);
-                s5.Fill = new SolidColorBrush(colourList[colours[Zeros[4]]]);
-                s6.Fill = new SolidColorBrush(colourList[colours[Zeros[5]]]);
-                s7.Fill = new SolidColorBrush(colourList[colours[Zeros[6]]]);
-                s8.Fill = new SolidColorBrush(colourList[colours[Zeros[7]]]);
-                // Set the fill color based on whether the button at that index has been pressed or not
+
+            // Get the i-th element that represents the button order
+            s1.Fill = new SolidColorBrush(colourList[colours[Zeros[0]]]);
+            s2.Fill = new SolidColorBrush(colourList[colours[Zeros[1]]]);
+            s3.Fill = new SolidColorBrush(colourList[colours[Zeros[2]]]);
+            s4.Fill = new SolidColorBrush(colourList[colours[Zeros[3]]]);
+            s5.Fill = new SolidColorBrush(colourList[colours[Zeros[4]]]);
+            s6.Fill = new SolidColorBrush(colourList[colours[Zeros[5]]]);
+            s7.Fill = new SolidColorBrush(colourList[colours[Zeros[6]]]);
+            s8.Fill = new SolidColorBrush(colourList[colours[Zeros[7]]]);
+            // Set the fill color based on whether the button at that index has been pressed or not
 
             //}
+        }
+        private void resetSel(){
+            animateSel(c1, 10, shrinkTime);
+            animateSel(c2, 10, shrinkTime);
+            animateSel(c3, 10, shrinkTime);
+            animateSel(c4, 10, shrinkTime);
+            animateSel(c5, 10, shrinkTime);
+            animateSel(c6, 10, shrinkTime);
+            animateSel(c7, 10, shrinkTime);
+            animateSel(c8, 10, shrinkTime);
+            animateSel(c9, 10, shrinkTime);
+            animateSel(c10, 10, shrinkTime);
         }
         private void Garbage_Click(object sender, RoutedEventArgs e)
         {
@@ -370,16 +398,102 @@ namespace ProSpikeV1
         }
 
         
+        public void drawSeq(int index, int set)
+        {
+            switch (index) { 
+                case 1:
+                    DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
+
+                    break;
+                case 2:
+                    DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
+                    break;
+                case 3:
+                    DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
+                    break;
+                case 4:
+                    DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
+                    break;
+                case 5:
+                    DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
+                    break;
+                case 6:
+                    DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
+                    break;
+                case 7:
+                    DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
+                    break;
+                case 8:
+                    custom = true;
+                    DrawBezier((_dataModel.xSliderValue1 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c1Controlx1, _dataModel.c1Controly1, _dataModel.c1Controlx2, _dataModel.c1Controly2);
+
+                    break;
+                case 9:
+                    custom = true;
+                    DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
+
+                    break;
+                case 10:
+                    custom = true;
+                    DrawBezier((_dataModel.xSliderValue3 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c3Controlx1, _dataModel.c3Controly1, _dataModel.c3Controlx2, _dataModel.c3Controly2);
+
+                    break;
+            }
+
+            
+
+            switch (set)
+            {
+                case 1:
+                    animateSeq(s1, sizeGrow+30, growTime/2);
+                    break;
+                case 2:
+                    animateSeq(s1, sizeGrow, shrinkTime);
+                    
+                    animateSeq(s2, sizeGrow + 30, growTime / 2);
+                    break;
+                case 3:
+                    animateSeq(s2, sizeGrow, shrinkTime);
+                    animateSeq(s3, sizeGrow + 30, growTime / 2);
+                    break;
+                case 4:
+                    animateSeq(s3, sizeGrow, shrinkTime);
+                    animateSeq(s4, sizeGrow + 30, growTime / 2);
+                    break;
+                case 5:
+                    animateSeq(s4, sizeGrow, shrinkTime);
+                    animateSeq(s5, sizeGrow + 30, growTime / 2);
+                    break;
+                case 6:
+                    animateSeq(s5, sizeGrow, shrinkTime);
+                    animateSeq(s6, sizeGrow + 30, growTime / 2);
+                    break;
+                case 7:
+                    animateSeq(s6, sizeGrow, shrinkTime);
+                    animateSeq(s7, sizeGrow + 30, growTime / 2);
+                    break;
+                case 8:
+                    animateSeq(s7, sizeGrow, shrinkTime);
+                    animateSeq(s8, sizeGrow + 30, growTime / 2);
+                    break;
+
+            }
+
+
+        }
 
         // drawArc(xradius, yradius, xterminalpoint, yterminalpoint, beginningx, beginningy)
         private void PHBall_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[1] == false)
             {
+                resetSel();
                 buttonActive[1] = true;
                 activeButtonReset(1);
                 MainText.Content = PHBall.Content;
                 DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c1, 50, growTime);
             }
             else
             {
@@ -402,10 +516,13 @@ namespace ProSpikeV1
         {
             if (buttonActive[2] == false)
             {
+                resetSel();
                 buttonActive[2] = true;
                 activeButtonReset(2);
                 MainText.Content = PShoot.Content;
                 DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c2, 50, growTime);
             }
             else
             {
@@ -427,10 +544,13 @@ namespace ProSpikeV1
         {
             if (buttonActive[3] == false)
             {
+                resetSel();
                 buttonActive[3] = true;
                 activeButtonReset(3);
                 MainText.Content = ThirtyThree.Content;
                 DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c3, 50, growTime);
             }
             else
             {
@@ -451,10 +571,13 @@ namespace ProSpikeV1
         {
             if (buttonActive[4] == false)
             {
+                resetSel();
                 buttonActive[4] = true;
                 activeButtonReset(4);
                 MainText.Content = MHBall.Content;
                 DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c4, 50, growTime);
             }
             else
             {
@@ -476,10 +599,13 @@ namespace ProSpikeV1
         {
             if (buttonActive[5] == false)
             {
+                resetSel();
                 buttonActive[5] = true;
                 activeButtonReset(5);
                 MainText.Content = MQuick.Content;
                 DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c5, 50, growTime);
             }
             else
             {
@@ -501,10 +627,13 @@ namespace ProSpikeV1
         {
             if (buttonActive[6] == false)
             {
+                resetSel();
                 buttonActive[6] = true;
                 activeButtonReset(6);
                 DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
                 MainText.Content = MSlide.Content;
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c6, 50, growTime);
             }
             else
             {
@@ -525,10 +654,13 @@ namespace ProSpikeV1
         {
             if (buttonActive[7] == false)
             {
+                resetSel();
                 buttonActive[7] = true;
                 activeButtonReset(7);
                 DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
                 MainText.Content = OHBall.Content;
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c7, 50, growTime);
             }
             else
             {
@@ -551,12 +683,14 @@ namespace ProSpikeV1
             //custom = false;
             if (buttonActive[8] == false)
             {
+                resetSel();
                 buttonActive[8] = true;
                 activeButtonReset(8);
                 custom = true;
                 MainText.Content = "Custom 1";
                 DrawBezier((_dataModel.xSliderValue1 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c1Controlx1, _dataModel.c1Controly1, _dataModel.c1Controlx2, _dataModel.c1Controly2);
-
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c8, 50, growTime);
             }
             else
             {
@@ -578,12 +712,14 @@ namespace ProSpikeV1
             //custom = false;
             if (buttonActive[9] == false)
             {
+                resetSel();
                 buttonActive[9] = true;
                 activeButtonReset(9);
                 custom = true;
                 MainText.Content = "Custom 2";
                 DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
-
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c9, 50, growTime);
             }
             else
             {
@@ -605,12 +741,14 @@ namespace ProSpikeV1
             //custom = false;
             if (buttonActive[10] == false)
             {
+                resetSel();
                 buttonActive[10] = true;
                 activeButtonReset(10);
                 MainText.Content = "Custom 3";
                 custom = true;
                 DrawBezier((_dataModel.xSliderValue3 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c3Controlx1, _dataModel.c3Controly1, _dataModel.c3Controlx2, _dataModel.c3Controly2);
-
+                //logoImg.Visibility = Visibility.Collapsed;
+                animateSel(c10, 50, growTime);
             }
             else
             {
@@ -638,33 +776,34 @@ namespace ProSpikeV1
 
         private async void StartStop_Checked(object sender, RoutedEventArgs e)
         {
-
-            backArrow.IsEnabled = false;
-            Garbage.IsEnabled = false;
-            SerialPort serialPort = new SerialPort();
-            if (SerialPort.GetPortNames().Contains("COM4"))
-            {
-                serialPort.PortName = "COM4";
-            }
-            else if (SerialPort.GetPortNames().Contains("COM5"))
-            {
-                serialPort.PortName = "COM5";
-            }
-            else if (SerialPort.GetPortNames().Contains("COM3"))
-            {
-                serialPort.PortName = "COM3";
-            }
-            else
-            {
-                MainText.Content="Arduino not found.";
-                return;
-            }
+            resetSel();
+            //backArrow.IsEnabled = false;
+            //Garbage.IsEnabled = false;
+            //SerialPort serialPort = new SerialPort();
+            //if (SerialPort.GetPortNames().Contains("COM4"))
+            //{
+            //    serialPort.PortName = "COM4";
+            //}
+            //else if (SerialPort.GetPortNames().Contains("COM5"))
+            //{
+            //    serialPort.PortName = "COM5";
+            //}
+            //else if (SerialPort.GetPortNames().Contains("COM3"))
+            //{
+            //    serialPort.PortName = "COM3";
+            //}
+            //else
+            //{
+            //    MainText.Content="Arduino not found.";
+            //    return;
+            //}
 
             string data;
             string response = "";
             int timeout = (int)_dataModel.userDelay *1000;
-            serialPort.BaudRate = 9600;
-            serialPort.Open();
+            //serialPort.BaudRate = 9600;
+            //serialPort.Open();
+            ////await Task.Delay(_dataModel.userDelay);
 
             for (int i = 0; i < sequence.Count; i++)
             {
@@ -672,38 +811,36 @@ namespace ProSpikeV1
                 {
                     return;
                 }
-                //try
-                //{
+                
                 data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+".";
-                serialPort.Write(data);
-                DateTime start = DateTime.Now;
-                //serialPort.Write(sequence[i].ToString());
-                while ((DateTime.Now - start).TotalMilliseconds < timeout)
-                {
-                    // Check if a message has been received
-                    if (response.Contains("Ready"))
-                    {
-                        // Do something with the response
-                        break;
-                    }
-                    if (StartStop.IsChecked == false)
-                    {
-                        serialPort.Write("0," + homePoint + ".5");
-                        serialPort.Close();
-                        return;
-                    }
+                //serialPort.Write(data);
+                drawSeq(sequence[i], i + 1);
+                await Task.Delay(1000);
 
-                    // Wait for 100 milliseconds before checking again
-                    Thread.Sleep(100);
-                }
-                //}
-                //catch(Exception ex)
+                DateTime start = DateTime.Now;
+               
+                //while ((DateTime.Now - start).TotalMilliseconds < timeout)
                 //{
-                //MainText.Content=ex.Message;
+                    
+                //    if (response.Contains("Ready"))
+                //    {
+                     
+                //        break;
+                //    }
+                //    if (StartStop.IsChecked == false)
+                //    {
+                //        serialPort.Write("0," + homePoint + ".5");
+                //        serialPort.Close();
+                //        return;
+                //    }
+
+                //    //// Wait for 100 milliseconds before checking again
+                //    Thread.Sleep(100);
                 //}
+                
             }
-            serialPort.Write("0,"+homePoint+".5");
-            serialPort.Close();
+            //serialPort.Write("0,"+homePoint+".5");
+            //serialPort.Close();
             StartStop.IsChecked = false;
             
         }

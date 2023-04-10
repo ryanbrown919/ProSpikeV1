@@ -31,7 +31,7 @@ namespace ProSpikeV1
         public bool custom1 { get; set; }
         public bool custom2 { get; set; }
         public bool custom3 { get; set; }
-        public bool netHeightVal { get; set; }
+        public int netHeight { get; set; }
         public bool demoModeVal { get; set; }
         //public bool AreButtonsEnabled { get; set; }
     }

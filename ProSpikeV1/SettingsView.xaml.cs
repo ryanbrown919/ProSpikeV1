@@ -46,7 +46,7 @@ namespace ProSpikeV1
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             _dataModel = dataModel;
-
+            timerSlider.Value = 3;
             //_dataModel = new SharedDataModel();
             //xSlider.Value = _dataModel.xSliderValue1;
             //ySlider.Value = _dataModel.ySliderValue1;
@@ -302,24 +302,38 @@ namespace ProSpikeV1
             CustomSet_UpdateModel((int)xSlider.Value, ((int)ySlider.Value), Convert.ToInt32(newControlx1), Convert.ToInt32(newControly1), Convert.ToInt32(newControlx2), Convert.ToInt32(newControly2));
         }
 
-        private void netHeight_Unchecked(object sender, RoutedEventArgs e)
-        {
-            _dataModel.netHeightVal = (bool)netHeight.IsChecked;
-        }
+        
 
         private void demoMode_Checked(object sender, RoutedEventArgs e)
         {
             _dataModel.demoModeVal = (bool)demoMode.IsChecked;
         }
 
-        private void netHeight_Checked(object sender, RoutedEventArgs e)
+        private void demoMode_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void demoMode_Unchecked(object sender, RoutedEventArgs e)
+        private void mensNet_Unchecked(object sender, RoutedEventArgs e)
         {
+            womensNet.IsChecked = true;
+            _dataModel.netHeight = 3;
+        }
 
+        private void mensNet_Checked(object sender, RoutedEventArgs e)
+        {
+            womensNet.IsChecked = false;
+        }
+
+        private void womensNet_Unchecked(object sender, RoutedEventArgs e)
+        {
+            mensNet.IsChecked = true;
+        }
+
+        private void womensNet_Checked(object sender, RoutedEventArgs e)
+        {
+            mensNet.IsChecked = false;
+            _dataModel.netHeight = 0;
         }
     }
 }

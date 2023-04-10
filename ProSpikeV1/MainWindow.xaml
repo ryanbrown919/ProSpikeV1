@@ -12,7 +12,7 @@
     <!--Height="800" Width="1300"-->
 
     <Window.Resources>
-        
+
         <!--<sys:String x:Key="mainTitle">Select a Set</sys:String>-->
         <Style TargetType="{x:Type Button}" >
             <Setter Property="Width" Value="400"/>
@@ -144,7 +144,7 @@
 
 
 
-        <Label x:Name="MainText" Content="Select a Set" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="350,0,0,10" FontSize="60" Grid.Column="1" Width="552"/>
+        <Label x:Name="MainText" Content="Select a Set" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="350,0,0,10" FontSize="60" Visibility="Collapsed" Grid.Column="1" Width="552"/>
 
         <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PHBall"  Content="Power High Ball" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PHBall_Click" HorizontalAlignment="Left" MouseEnter="PHBall_MouseEnter" Height="70" Width="400"  />
         <Button Template="{DynamicResource ButtonTemplate2}" x:Name="ThirtyThree" Content="Thirty Three" Grid.Row="2" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="ThirtyThree_Click" HorizontalAlignment="Left" MouseEnter="ThirtyThree_MouseEnter" Height="70" Width="400" />
@@ -162,7 +162,15 @@
                 <ImageBrush ImageSource="/Resources/gear.png" Stretch="Uniform"/>
             </Button.Background>
         </Button>
-        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="Garbage" Height="48" Width="33" Grid.Row="8" HorizontalAlignment="Left" Margin="779,0,0,0" Click="Garbage_Click"  Grid.Column="1">
+        <Button Template="{DynamicResource ButtonTemplate1}" x:Name="Garbage" Height="48" Width="33" Grid.Row="8" HorizontalAlignment="Left" Margin="779,0,0,0" Click="Garbage_Click"  Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
             <Button.Background>
                 <ImageBrush ImageSource="/Resources/Garbage.png" Stretch="Uniform"/>
             </Button.Background>
@@ -178,7 +186,7 @@
             <Image Name="volleyballIcon" Source="/Resources/volleyballSmall.png" Panel.ZIndex="1" Canvas.Left="-84" Canvas.Top="2.4"/>
         </Canvas>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8" Margin="0,74,0,0" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8" Margin="0,39,0,0" Grid.RowSpan="2">
             <Rectangle x:Name="s1" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
             <Rectangle x:Name="s2" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
             <Rectangle x:Name="s3"  HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
@@ -188,19 +196,22 @@
             <Rectangle x:Name="s7" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
             <Rectangle x:Name="s8" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
         </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="10">
+            <Rectangle x:Name="c1"  Grid.Row="0" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1" />
+            <Rectangle x:Name="c2"  Grid.Row="1" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c3"  Grid.Row="2" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c4"  Grid.Row="3" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c5"  Grid.Row="4" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c6"  Grid.Row="5" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c7"  Grid.Row="6" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c8"  Grid.Row="7" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c9"  Grid.Row="8" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
+            <Rectangle x:Name="c10" Grid.Row="9" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="71"  Grid.ColumnSpan="2"/>
+        </StackPanel>
+        <ToggleButton  Name="StartStop" Style="{StaticResource StartStopStyle}" Checked="StartStop_Checked" Unchecked="StartStop_Unchecked" HorizontalAlignment="Center" Height="90" Margin="0,39,0,0" Grid.RowSpan="2" Grid.Row="8" VerticalAlignment="Top" Width="100"/>
 
-        <Rectangle x:Name="c1" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c2" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c3" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c4" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c5" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c6" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c7" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c8" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c9" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70"/>
-        <Rectangle x:Name="c10" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Left" Width="10" Margin="0,4,0,4" Height="70" />
 
-        <ToggleButton   Name="StartStop" Style="{StaticResource MyToggleButtonStyle}" Checked="StartStop_Checked" Unchecked="StartStop_Unchecked" HorizontalAlignment="Center" Height="90" Margin="0,39,0,0" Grid.RowSpan="2" Grid.Row="8" VerticalAlignment="Top" Width="100"/>
+        <Image x:Name ="logoImg" Source="/Resources/prospikeLogo.png"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="113" Width="600" Panel.ZIndex="1" Canvas.Left="164.789" Grid.Column="1" Margin="215,10,0,0" Grid.RowSpan="2"/>
 
 
 
