@@ -1,13 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProSpikeV1
 {
-    public class SharedDataModel
+    public class SharedDataModel : INotifyPropertyChanged
     {
+        private bool _demoModeVal;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool demoModeVal
+        {
+            get { return _demoModeVal; }
+            set
+            {
+                if (_demoModeVal != value)
+                {
+                    _demoModeVal = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(demoModeVal)));
+                }
+            }
+        }
         public int xSliderValue1 { get; set; }
         public int ySliderValue1 { get; set; }
         public int xSliderValue2 { get; set; }
@@ -32,7 +49,7 @@ namespace ProSpikeV1
         public bool custom2 { get; set; }
         public bool custom3 { get; set; }
         public int netHeight { get; set; }
-        public bool demoModeVal { get; set; }
+        //public bool demoModeVal { get; set; }
         //public bool AreButtonsEnabled { get; set; }
     }
 }

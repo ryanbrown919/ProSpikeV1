@@ -111,6 +111,10 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="ToggleButtonImage" Property="Source" Value="/Resources/stop.png"/>
                             </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="ToggleButtonImage" Property="Source" Value="/Resources/play.png"/>
+                            </Trigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -146,16 +150,16 @@
 
         <Label x:Name="MainText" Content="Select a Set" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="350,0,0,10" FontSize="60" Visibility="Collapsed" Grid.Column="1" Width="552"/>
 
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PHBall"  Content="Power High Ball" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PHBall_Click" HorizontalAlignment="Left" MouseEnter="PHBall_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="ThirtyThree" Content="Thirty Three" Grid.Row="2" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="ThirtyThree_Click" HorizontalAlignment="Left" MouseEnter="ThirtyThree_MouseEnter" Height="70" Width="400" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MHBall" Content="Middle High Ball" Grid.Row="3" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="MHBall_Click" HorizontalAlignment="Left" MouseEnter="MHBall_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MQuick" Content="Middle Quick" Grid.Row="4" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MQuick_Click" HorizontalAlignment="Left" MouseEnter="MQuick_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MSlide" Content="Middle Slide" Grid.Row="5" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MSlide_Click" HorizontalAlignment="Left" MouseEnter="MSlide_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="OHBall" Content="Offside High Ball" Grid.Row="6" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="OHBall_Click" HorizontalAlignment="Left" MouseEnter="OHBall_MouseEnter" Height="70" Width="400" />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom1" Content="Custom 1" Grid.Row="7" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom1_Click" HorizontalAlignment="Left" MouseEnter="Custom1_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom2" Content="Custom 2" Grid.Row="8" Grid.Column="2" Margin="4,0,0,0"   FontSize="36" Click="Custom2_Click" HorizontalAlignment="Left" MouseEnter="Custom2_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom3" Content="Custom 3" Grid.Row="9" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom3_Click" HorizontalAlignment="Left" MouseEnter="Custom3_MouseEnter" Height="70" Width="400"  />
-        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PShoot" Content="Power Shoot" Grid.Row="1" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PShoot_Click" HorizontalAlignment="Left" MouseEnter="PShoot_MouseEnter" Height="70" Width="400"  />
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PHBall"  Content="Power High Ball" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PHBall_Click" HorizontalAlignment="Left" MouseEnter="PHBall_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="ThirtyThree" Content="Thirty Three" Grid.Row="2" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="ThirtyThree_Click" HorizontalAlignment="Left" MouseEnter="ThirtyThree_MouseEnter" Height="70" Width="400" Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MHBall" Content="Middle High Ball" Grid.Row="3" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="MHBall_Click" HorizontalAlignment="Left" MouseEnter="MHBall_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MQuick" Content="Middle Quick" Grid.Row="4" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MQuick_Click" HorizontalAlignment="Left" MouseEnter="MQuick_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="MSlide" Content="Middle Slide" Grid.Row="5" Grid.Column="2"  Margin="4,0,0,0" FontSize="36" Click="MSlide_Click" HorizontalAlignment="Left" MouseEnter="MSlide_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="OHBall" Content="Offside High Ball" Grid.Row="6" Grid.Column="2"  Margin="4,0,0,0"   FontSize="36" Click="OHBall_Click" HorizontalAlignment="Left" MouseEnter="OHBall_MouseEnter" Height="70" Width="400" Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom1" Content="Custom 1" Grid.Row="7" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom1_Click" HorizontalAlignment="Left" MouseEnter="Custom1_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom2" Content="Custom 2" Grid.Row="8" Grid.Column="2" Margin="4,0,0,0"   FontSize="36" Click="Custom2_Click" HorizontalAlignment="Left" MouseEnter="Custom2_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="Custom3" Content="Custom 3" Grid.Row="9" Grid.Column="2" Margin="4,0,0,0"  FontSize="36" Click="Custom3_Click" HorizontalAlignment="Left" MouseEnter="Custom3_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
+        <Button Template="{DynamicResource ButtonTemplate2}" x:Name="PShoot" Content="Power Shoot" Grid.Row="1" Grid.Column="2"  Margin="4,0,0,0"  FontSize="36" Click="PShoot_Click" HorizontalAlignment="Left" MouseEnter="PShoot_MouseEnter" Height="70" Width="400"  Panel.ZIndex="1"/>
 
         <Button Template="{DynamicResource ButtonTemplate1}" x:Name="SettingsPage" Height="82" Width="66" HorizontalAlignment="Center" Grid.RowSpan="2" Margin="0,18,0,0" VerticalAlignment="Top" Click="SettingsPage_Click">
             <Button.Background>
@@ -187,28 +191,28 @@
         </Canvas>
 
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8" Margin="0,39,0,0" Grid.RowSpan="2">
-            <Rectangle x:Name="s1" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s2" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s3"  HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s4" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s5" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s6" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s7" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
-            <Rectangle x:Name="s8" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black"/>
+            <Rectangle x:Name="s1" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s2" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20"  Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s3"  HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s4" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s5" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s6" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s7" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="s8" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="10">
-            <Rectangle x:Name="c1"  Grid.Row="0" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1" />
-            <Rectangle x:Name="c2"  Grid.Row="1" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c3"  Grid.Row="2" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c4"  Grid.Row="3" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c5"  Grid.Row="4" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c6"  Grid.Row="5" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c7"  Grid.Row="6" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c8"  Grid.Row="7" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c9"  Grid.Row="8" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="70" Grid.ColumnSpan="2" Panel.ZIndex="1"/>
-            <Rectangle x:Name="c10" Grid.Row="9" HorizontalAlignment="Right" Width="10" Margin="0,5,415,5" Height="71"  Grid.ColumnSpan="2"/>
+            <Rectangle x:Name="c1"  Grid.Row="0" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4" />
+            <Rectangle x:Name="c2"  Grid.Row="1" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c3"  Grid.Row="2" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c4"  Grid.Row="3" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c5"  Grid.Row="4" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c6"  Grid.Row="5" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c7"  Grid.Row="6" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c8"  Grid.Row="7" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c9"  Grid.Row="8" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c10" Grid.Row="9" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70"  Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
         </StackPanel>
-        <ToggleButton  Name="StartStop" Style="{StaticResource StartStopStyle}" Checked="StartStop_Checked" Unchecked="StartStop_Unchecked" HorizontalAlignment="Center" Height="90" Margin="0,39,0,0" Grid.RowSpan="2" Grid.Row="8" VerticalAlignment="Top" Width="100"/>
+        <ToggleButton  Name="StartStop" Style="{StaticResource MyToggleButtonStyle}" Checked="StartStop_Checked" Unchecked="StartStop_Unchecked" HorizontalAlignment="Center" Height="90" Margin="0,39,0,0" Grid.RowSpan="2" Grid.Row="8" VerticalAlignment="Top" Width="100"/>
 
 
         <Image x:Name ="logoImg" Source="/Resources/prospikeLogo.png"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="113" Width="600" Panel.ZIndex="1" Canvas.Left="164.789" Grid.Column="1" Margin="215,10,0,0" Grid.RowSpan="2"/>

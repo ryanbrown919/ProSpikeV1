@@ -23,6 +23,7 @@ using System.Runtime.CompilerServices;
 //using System.Drawing;
 using System.Windows.Media.Animation;
 using System.Threading;
+using System.Reflection;
 
 namespace ProSpikeV1
 {
@@ -63,6 +64,9 @@ namespace ProSpikeV1
         public bool custom = false;
         public string homePoint = "14";
         public int sizeGrow = 70;
+        double distanceToAxis = 26.67;
+        public event EventHandler<bool> DemoButtonCheckedChanged;
+
         public MainWindow()
         {
 
@@ -70,14 +74,17 @@ namespace ProSpikeV1
             _dataModel = new SharedDataModel();
             //AppViewModel viewModel = new AppViewModel();
             _dataModel.SelectedComboBoxIndex = 0;
+            //_dataModel.demoModeVal = false;
             //_dataModel.xSliderValue1= 600;
             //_dataModel.ySliderValue1= 325;
             //_dataModel.xSliderValue2 = 0;
             //_dataModel.ySliderValue2 = 325;
             //_dataModel.xSliderValue3 = 250;
             //_dataModel.ySliderValue3 = 325;
-
+            //var settingsView = new SettingsView(_dataModel);
+            _dataModel.PropertyChanged += DataModel_PropertyChanged;
             //this.DataContext = viewModel;
+            _dataModel.netHeight = 3;
 
             c1.Fill = new SolidColorBrush(colourList[colours[1]]);
             c2.Fill = new SolidColorBrush(colourList[colours[2]]);
@@ -126,7 +133,20 @@ namespace ProSpikeV1
             //_dataModel.AreButtonsEnabled = false;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-
+        private void DataModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_dataModel.demoModeVal))
+            {
+                if (_dataModel.demoModeVal)
+                {
+                    MHBall.Content = "DEMO";
+                }
+                else
+                {
+                    MHBall.Content = "Middle High Ball";
+                }
+            }
+        }
         public void activeButtonReset(int index)
         {
             for (int i = 1; i < 11; i++)
@@ -396,7 +416,19 @@ namespace ProSpikeV1
             
 
         }
-
+        private void HandleDemoButtonCheckedChanged(object sender, bool isChecked)
+        {
+            if (isChecked)
+            {
+                // Do something when the toggle button is checked
+                MHBall.Content = "Middle High Ball (Demo)";
+            }
+            else
+            {
+                // Do something when the toggle button is unchecked
+                MHBall.Content = "Middle High Ball";
+            }
+        }
         public void resetSeq()
         {
             for (int i = 0; i <= sequence.Count; i++)
@@ -728,7 +760,13 @@ namespace ProSpikeV1
             {
                 int y = defaultEndy - _dataModel.c1Controly1;
                 int x = defaultEndx - _dataModel.c1Controlx1;
-
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                motorSpeed.Add(50);
+                linAct.Add(customLinAct);
                 sequence.Add(8);
                 seqUpdate();
             }
@@ -756,9 +794,17 @@ namespace ProSpikeV1
             else
             {
                 //MainText.Content = "Custom 1";
-                
-                //DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
 
+                //DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
+                int y = defaultEndy - _dataModel.c2Controly1;
+                int x = defaultEndx - _dataModel.c2Controlx1;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                motorSpeed.Add(50);
+                linAct.Add(customLinAct);
                 sequence.Add(9);
                 seqUpdate();
             }
@@ -784,6 +830,15 @@ namespace ProSpikeV1
             }
             else
             {
+                int y = defaultEndy - _dataModel.c3Controly1;
+                int x = defaultEndx - _dataModel.c3Controlx1;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                motorSpeed.Add(50);
+                linAct.Add(customLinAct);
                 sequence.Add(10);
                 
                 seqUpdate();
@@ -808,6 +863,11 @@ namespace ProSpikeV1
 
         private async void StartStop_Checked(object sender, RoutedEventArgs e)
         {
+            if (sequence.Count == 0){
+                StartStop.IsChecked = false;
+                return;
+            }
+            
             resetSel();
             resetSeq();
             //backArrow.IsEnabled = false;

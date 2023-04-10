@@ -39,6 +39,7 @@ namespace ProSpikeV1
         double newControly2 = -100;
         double xVal;
         private bool _ignoreFirstSelectionChange = true;
+        public event EventHandler<bool> DemoButtonCheckedChanged;
         private SharedDataModel _dataModel;
         //private SharedDataModel sharedData = new SharedDataModel();
         public SettingsView(SharedDataModel dataModel)
@@ -47,13 +48,23 @@ namespace ProSpikeV1
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             _dataModel = dataModel;
             timerSlider.Value = 3;
+            demoMode.IsChecked = _dataModel.demoModeVal;
             //_dataModel = new SharedDataModel();
             //xSlider.Value = _dataModel.xSliderValue1;
             //ySlider.Value = _dataModel.ySliderValue1;
             //CustomSetBox.SelectedIndex = _dataModel.SelectedComboBoxIndex;
             //settingsLabel.Content = _dataModel.xSliderValue1.ToString();
             Debug.WriteLine($"xSlider.Value set to {_dataModel.xSliderValue1}");
-            
+            if (_dataModel.netHeight == 3)
+            {
+                mensNet.IsChecked = true;
+                womensNet.IsChecked = false;
+            }
+            else
+            {
+                mensNet.IsChecked = false;
+                womensNet.IsChecked = true;
+            }
             //_dataModel.xSliderValue1 = 600;
             Debug.WriteLine($"xSlider.Value set to {_dataModel.xSliderValue1}");
             //switch (CustomSetBox.SelectedIndex)
@@ -306,23 +317,27 @@ namespace ProSpikeV1
 
         private void demoMode_Checked(object sender, RoutedEventArgs e)
         {
+            //DemoButtonCheckedChanged?.Invoke(_dataModel, true);
             _dataModel.demoModeVal = (bool)demoMode.IsChecked;
         }
 
         private void demoMode_Unchecked(object sender, RoutedEventArgs e)
         {
+            _dataModel.demoModeVal = (bool)demoMode.IsChecked;
 
+            //DemoButtonCheckedChanged?.Invoke(_dataModel, false);
         }
 
         private void mensNet_Unchecked(object sender, RoutedEventArgs e)
         {
             womensNet.IsChecked = true;
-            _dataModel.netHeight = 3;
+            
         }
 
         private void mensNet_Checked(object sender, RoutedEventArgs e)
         {
             womensNet.IsChecked = false;
+            _dataModel.netHeight = 3;
         }
 
         private void womensNet_Unchecked(object sender, RoutedEventArgs e)
