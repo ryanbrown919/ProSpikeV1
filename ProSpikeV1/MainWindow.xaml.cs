@@ -561,10 +561,20 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - -100;
+                int x = defaultEndx - 500;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 sequence.Add(1);
                 motorSpeed.Add(24);
-                linAct.Add(20);
+                linAct.Add(customLinAct);
 
                 seqUpdate();
             }
@@ -590,12 +600,22 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - 150;
+                int x = defaultEndx - 500;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 //port.Write("2");
                 sequence.Add(2);
                 seqUpdate();
                 motorSpeed.Add(54);
-                linAct.Add(25);
+                linAct.Add(customLinAct);
             }
         }
         private void PShoot_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -618,11 +638,21 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - 150;
+                int x = defaultEndx - 500;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 sequence.Add(3);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(23);
+                linAct.Add(customLinAct);
             }
         }
         private void ThirtyThree_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -645,12 +675,22 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - -50;
+                int x = defaultEndx - 550;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 //DrawBezier();
                 sequence.Add(4);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(23);
+                linAct.Add(16);
             }
         }
         private void MHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -673,11 +713,21 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - 225;
+                int x = defaultEndx - 550;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 sequence.Add(5);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(23);
+                linAct.Add(customLinAct);
             }
 
         }
@@ -701,11 +751,21 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - 150;
+                int x = defaultEndx - 680;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 sequence.Add(6);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(23);
+                linAct.Add(customLinAct);
             }
         }
         private void MSlide_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -728,11 +788,21 @@ namespace ProSpikeV1
             }
             else
             {
-                
+                int y = defaultEndy - -100;
+                int x = defaultEndx - 730;
+                int customLinAct = (int)(x / y * 27 + 14);
+                if (customLinAct > 25)
+                {
+                    customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 sequence.Add(7);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(23);
+                linAct.Add(customLinAct);
             }
         }
         private void OHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -764,6 +834,10 @@ namespace ProSpikeV1
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
+                }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
                 }
                 motorSpeed.Add(50);
                 linAct.Add(customLinAct);
@@ -803,6 +877,10 @@ namespace ProSpikeV1
                 {
                     customLinAct = 25;
                 }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 motorSpeed.Add(50);
                 linAct.Add(customLinAct);
                 sequence.Add(9);
@@ -837,6 +915,10 @@ namespace ProSpikeV1
                 {
                     customLinAct = 25;
                 }
+                else if (customLinAct < 5)
+                {
+                    customLinAct = 5;
+                }
                 motorSpeed.Add(50);
                 linAct.Add(customLinAct);
                 sequence.Add(10);
@@ -862,7 +944,7 @@ namespace ProSpikeV1
         }
 
         private async void StartStop_Checked(object sender, RoutedEventArgs e)
-        {
+        {   await Task.Delay(200);
             if (sequence.Count == 0){
                 StartStop.IsChecked = false;
                 return;
@@ -870,33 +952,40 @@ namespace ProSpikeV1
             
             resetSel();
             resetSeq();
-            //backArrow.IsEnabled = false;
-            //Garbage.IsEnabled = false;
-            //SerialPort serialPort = new SerialPort();
-            //if (SerialPort.GetPortNames().Contains("COM4"))
-            //{
-            //    serialPort.PortName = "COM4";
-            //}
-            //else if (SerialPort.GetPortNames().Contains("COM5"))
-            //{
-            //    serialPort.PortName = "COM5";
-            //}
-            //else if (SerialPort.GetPortNames().Contains("COM3"))
-            //{
-            //    serialPort.PortName = "COM3";
-            //}
-            //else
-            //{
-            //    MainText.Content="Arduino not found.";
-            //    return;
-            //}
+            backArrow.IsEnabled = false;
+            Garbage.IsEnabled = false;
+            SerialPort serialPort = new SerialPort();
+            if (SerialPort.GetPortNames().Contains("COM4"))
+            {
+                serialPort.PortName = "COM4";
+            }
+            else if (SerialPort.GetPortNames().Contains("COM3"))
+            {
+                serialPort.PortName = "COM3";
+            }
+            else if (SerialPort.GetPortNames().Contains("COM5"))
+            {
+                serialPort.PortName = "COM5";
+            }
+            
+            else
+            {
+                System.Windows.MessageBox.Show("Arduino not found.");
+                StartStop.IsChecked = false;
+                return;
+            }
 
             string data;
             string response = "";
+            string demo = "";
+            if (_dataModel.demoModeVal == true)
+            {
+                demo = "6";
+            }
             int timeout = (int)_dataModel.userDelay *1000;
-            //serialPort.BaudRate = 9600;
-            //serialPort.Open();
-            ////await Task.Delay(_dataModel.userDelay);
+            serialPort.BaudRate = 9600;
+            serialPort.Open();
+            
 
             for (int i = 0; i < sequence.Count; i++)
             {
@@ -905,35 +994,35 @@ namespace ProSpikeV1
                     return;
                 }
                 
-                data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+".";
-                //serialPort.Write(data);
+                data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+"." + demo;
+                serialPort.Write(data);
                 drawSeq(sequence[i], i + 1);
-                await Task.Delay(1000);
+                //await Task.Delay(1000);
 
                 DateTime start = DateTime.Now;
                
-                //while ((DateTime.Now - start).TotalMilliseconds < timeout)
-                //{
-                    
-                //    if (response.Contains("Ready"))
-                //    {
-                     
-                //        break;
-                //    }
-                //    if (StartStop.IsChecked == false)
-                //    {
-                //        serialPort.Write("0," + homePoint + ".5");
-                //        serialPort.Close();
-                //        return;
-                //    }
+                while ((DateTime.Now - start).TotalMilliseconds < timeout)
+                {
 
-                //    //// Wait for 100 milliseconds before checking again
-                //    Thread.Sleep(100);
-                //}
-                
+                    if (response.Contains("Ready"))
+                    {
+
+                        break;
+                    }
+                    if (StartStop.IsChecked == false)
+                    {
+                        serialPort.Write("0," + homePoint + ".5");
+                        serialPort.Close();
+                        return;
+                    }
+
+                    //// Wait for 100 milliseconds before checking again
+                    Thread.Sleep(100);
+                }
+
             }
-            //serialPort.Write("0,"+homePoint+".5");
-            //serialPort.Close();
+            serialPort.Write("0,"+homePoint+".5");
+            serialPort.Close();
             StartStop.IsChecked = false;
             
         }
