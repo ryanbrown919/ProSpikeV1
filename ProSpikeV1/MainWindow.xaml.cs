@@ -852,13 +852,13 @@ namespace ProSpikeV1
                 double y;
                 double x;
                 if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx){
-                    y = defaultEndy - _dataModel.c1Controly1;
-                    x = defaultEndx - _dataModel.c1Controlx1;
+                    y = defaultEndy - _dataModel.c1Controly2;
+                    x = defaultEndx - _dataModel.c1Controlx2;
                 }
                 else
                 {
-                    y = defaultEndy - _dataModel.c1Controly2;
-                    x = defaultEndx - _dataModel.c1Controlx2;
+                    y = defaultEndy - _dataModel.c1Controly1;
+                    x = defaultEndx - _dataModel.c1Controlx1;
                 }
                 
                 double customLinAct = (x / y * 30 + 14);
@@ -906,13 +906,13 @@ namespace ProSpikeV1
                 double x;
                 if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx)
                 {
-                    y = defaultEndy - _dataModel.c2Controly1;
-                    x = defaultEndx - _dataModel.c2Controlx1;
+                    y = defaultEndy - _dataModel.c2Controly2;
+                    x = defaultEndx - _dataModel.c2Controlx2;
                 }
                 else
                 {
-                    y = defaultEndy - _dataModel.c2Controly2;
-                    x = defaultEndx - _dataModel.c2Controlx2;
+                    y = defaultEndy - _dataModel.c2Controly1;
+                    x = defaultEndx - _dataModel.c2Controlx1;
                 }
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
@@ -955,13 +955,13 @@ namespace ProSpikeV1
                 double x;
                 if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx)
                 {
-                    y = defaultEndy - _dataModel.c3Controly1;
-                    x = defaultEndx - _dataModel.c3Controlx1;
+                    y = defaultEndy - _dataModel.c3Controly2;
+                    x = defaultEndx - _dataModel.c3Controlx2;
                 }
                 else
                 {
-                    y = defaultEndy - _dataModel.c3Controly2;
-                    x = defaultEndx - _dataModel.c3Controlx2;
+                    y = defaultEndy - _dataModel.c3Controly1;
+                    x = defaultEndx - _dataModel.c3Controlx1;
                 }
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
