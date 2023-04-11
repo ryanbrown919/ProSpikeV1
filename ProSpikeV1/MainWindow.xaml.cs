@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Media.Animation;
 using System.Threading;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace ProSpikeV1
 {
@@ -568,9 +569,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - -100;
-                int x = defaultEndx - 500;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -580,8 +582,8 @@ namespace ProSpikeV1
                     customLinAct = 5;
                 }
                 sequence.Add(1);
-                motorSpeed.Add(24);
-                linAct.Add(customLinAct);
+                motorSpeed.Add(50);
+                linAct.Add((int)customLinAct);
 
                 seqUpdate();
             }
@@ -607,9 +609,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - 150;
-                int x = defaultEndx - 500;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -622,7 +625,7 @@ namespace ProSpikeV1
                 sequence.Add(2);
                 seqUpdate();
                 motorSpeed.Add(54);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
             }
         }
         private void PShoot_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -645,9 +648,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - 150;
-                int x = defaultEndx - 500;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -659,7 +663,7 @@ namespace ProSpikeV1
                 sequence.Add(3);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
             }
         }
         private void ThirtyThree_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -688,9 +692,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - -50;
-                int x = defaultEndx - 550;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -703,7 +708,7 @@ namespace ProSpikeV1
                 sequence.Add(4);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(23);
+                linAct.Add((int)customLinAct);
             }
         }
         private void MHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -726,9 +731,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - 225;
-                int x = defaultEndx - 550;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -740,7 +746,7 @@ namespace ProSpikeV1
                 sequence.Add(5);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
             }
 
         }
@@ -764,9 +770,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - 150;
-                int x = defaultEndx - 680;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -778,7 +785,7 @@ namespace ProSpikeV1
                 sequence.Add(6);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
             }
         }
         private void MSlide_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -801,9 +808,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - -100;
-                int x = defaultEndx - 730;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -815,7 +823,7 @@ namespace ProSpikeV1
                 sequence.Add(7);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
             }
         }
         private void OHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -841,9 +849,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - _dataModel.c1Controly1;
-                int x = defaultEndx - _dataModel.c1Controlx1;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -853,7 +862,7 @@ namespace ProSpikeV1
                     customLinAct = 5;
                 }
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
                 sequence.Add(8);
                 seqUpdate();
             }
@@ -883,9 +892,10 @@ namespace ProSpikeV1
                 //MainText.Content = "Custom 1";
 
                 //DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
-                int y = defaultEndy - _dataModel.c2Controly1;
-                int x = defaultEndx - _dataModel.c2Controlx1;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -895,7 +905,7 @@ namespace ProSpikeV1
                     customLinAct = 5;
                 }
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
                 sequence.Add(9);
                 seqUpdate();
             }
@@ -921,9 +931,10 @@ namespace ProSpikeV1
             }
             else
             {
-                int y = defaultEndy - _dataModel.c3Controly1;
-                int x = defaultEndx - _dataModel.c3Controlx1;
-                int customLinAct = (int)(x / y * 27 + 14);
+                double y = defaultEndy - -100;
+                double x = defaultEndx - 500;
+                double customLinAct = (x / y * 30 + 14);
+                Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
                 {
                     customLinAct = 25;
@@ -933,7 +944,7 @@ namespace ProSpikeV1
                     customLinAct = 5;
                 }
                 motorSpeed.Add(50);
-                linAct.Add(customLinAct);
+                linAct.Add((int)customLinAct);
                 sequence.Add(10);
                 
                 seqUpdate();
@@ -1015,6 +1026,7 @@ namespace ProSpikeV1
                     return;
 
                 }
+                drawSeq(sequence[i], i + 1);
                 await Task.Delay(timeout);
                 if (sequence[i] == 4 && demo == "6")
                 {
@@ -1025,13 +1037,14 @@ namespace ProSpikeV1
                 
                 data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+"." + demo;
                 serialPort.Write(data);
-                drawSeq(sequence[i], i + 1);
-                
 
+                
+;
                 DateTime start = DateTime.Now;
                 //(DateTime.Now - start).TotalMilliseconds < timeout
                 while (true)
                 {
+                    response = serialPort.ReadLine();
 
                     if (response.Contains("Ready"))
                     {
@@ -1048,7 +1061,7 @@ namespace ProSpikeV1
                     //// Wait for 100 milliseconds before checking again
                     Thread.Sleep(100);
                 }
-
+                response = "";
             }
             serialPort.Write("0,"+homePoint+".5");
             serialPort.Close();
