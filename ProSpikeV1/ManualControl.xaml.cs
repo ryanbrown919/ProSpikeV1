@@ -30,7 +30,7 @@ namespace ProSpikeV1
         public String data;
         //public SerialPort serialPort = new SerialPort();
         public string[] ports = SerialPort.GetPortNames();
-        public SerialPort serialPort = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
+        public SerialPort serialPort = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
         public ManualControl(SharedDataModel dataModel)
         {
             InitializeComponent();

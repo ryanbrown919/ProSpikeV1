@@ -44,7 +44,7 @@ namespace ProSpikeV1
         public int c3Controly1 { get; set; }
         public int c3Controlx2 { get; set; }
         public int c3Controly2 { get; set; }
-        public double userDelay { get; set; }
+        public int userDelay { get; set; }
         public bool custom1 { get; set; }
         public bool custom2 { get; set; }
         public bool custom3 { get; set; }

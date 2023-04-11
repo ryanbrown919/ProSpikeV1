@@ -304,7 +304,7 @@ namespace ProSpikeV1
         {
             timerBox.Content = $"Time between sets: {timerSlider.Value + 7} seconds";
             
-            _dataModel.userDelay = timerSlider.Value;
+            _dataModel.userDelay = (int)timerSlider.Value;
         }
         private void SettingsView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

@@ -957,7 +957,7 @@ namespace ProSpikeV1
             resetSeq();
             backArrow.IsEnabled = false;
             Garbage.IsEnabled = false;
-            SerialPort serialPort = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
+            SerialPort serialPort = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
             serialPort.Open();
             /*if (SerialPort.GetPortNames().Contains("COM4"))
             {
@@ -1000,15 +1000,18 @@ namespace ProSpikeV1
             {
                 if (StartStop.IsChecked == false)
                 {
+                    serialPort.Write("0," + homePoint + ".5");
+                    serialPort.Close();
                     return;
+
                 }
                 
                 data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+"." + demo;
                 serialPort.Write(data);
                 drawSeq(sequence[i], i + 1);
-                //await Task.Delay(1000);
+                await Task.Delay(timeout);
 
-                DateTime start = DateTime.Now;
+                /*DateTime start = DateTime.Now;
                
                 while ((DateTime.Now - start).TotalMilliseconds < timeout)
                 {
@@ -1027,7 +1030,7 @@ namespace ProSpikeV1
 
                     //// Wait for 100 milliseconds before checking again
                     Thread.Sleep(100);
-                }
+                }*/
 
             }
             serialPort.Write("0,"+homePoint+".5");
