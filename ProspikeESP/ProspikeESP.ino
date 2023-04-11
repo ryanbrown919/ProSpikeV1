@@ -90,7 +90,7 @@ const int dirPin1 = 2;
 const int stepPin1 = 3; 
 const int enablePin = 4;
 int dist = 630;
-unsigned long timeout = 3000;
+unsigned long timeout = 6000;
 unsigned long startTime;
 AccelStepper stepper(AccelStepper::DRIVER, stepPin1, dirPin1);
 
@@ -220,7 +220,7 @@ void receiveEvent(int bytes) {
 
 void loop() {
   Serial.println("Looping");
-  //error = '';
+  //error = ' ';
   while (!Serial.available()) { // Wait for Serial input
     delay(100);
     Serial.println("Waiting");
@@ -277,26 +277,28 @@ void loop() {
       
       break;
       case 6: // Demo Mode
-        if (motorSpeed == 50 && linAct == 16){
-          reload();
-        }
+        //if (motorSpeed == 50 && linAct == 16){
+         // reload();
+        //}
         sendLinAct(linAct);
         //ds3502.setWiper(motorSpeed);
         motorSpeedFunc(motorSpeed,oldSpeed); 
         startTime = millis();
         
-        while (error != 'D' || millis() - startTime > timeout){
-          //delay(100);
+        while (error != 'D' && millis() - startTime < timeout){
+          delay(100);
         }
+        error = ' ';
         launch();
         sendLinAct(homePoint);
-        startTime = millis();
-        
-        while (error != 'D' || millis() - startTime > timeout){
-          //delay(100);
+         startTime = millis();
+        while (error != 'D' && millis() - startTime < timeout){
+          delay(100);
         }
+        error = ' ';
         //ds3502.setWiper(0);
         oldSpeed = motorSpeed;
+        Serial.write("Ready");
       break;
       case 0: // Code that runs when no commands present, as is the case when it is the automatic sequence
         reload();
@@ -305,21 +307,21 @@ void loop() {
         motorSpeedFunc(motorSpeed,oldSpeed); 
         
          startTime = millis();
-        while (error != 'D' || millis() - startTime > timeout){
-          //delay(100);
+        while (error != 'D' && millis() - startTime < timeout){
+          delay(100);
         }
+        error = ' ';
         launch();
         sendLinAct(homePoint);
         startTime = millis();
         
-        while (error != 'D' || millis() - startTime > timeout){
-          //delay(100);
-        }
-        //ds3502.setWiper(0);
         oldSpeed = motorSpeed;
-        //motorSpeed = 0;
-        //motorSpeedFunc(motorSpeed, oldSpeed);
-        //oldSpeed = motorSpeed;
+
+        startTime = millis();
+        while (error != 'D' && millis() - startTime < timeout){
+          delay(100);
+        }
+        error = ' ';
         Serial.write("Ready");
       break;
     }
