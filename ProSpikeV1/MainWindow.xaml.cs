@@ -255,6 +255,8 @@ namespace ProSpikeV1
         {
             
             sequence.Clear();
+            motorSpeed.Clear();
+            linAct.Clear();
             
             animateSeq(s1, reSize, shrinkTime);
             animateSeq(s2, reSize, shrinkTime);
@@ -275,6 +277,8 @@ namespace ProSpikeV1
             }
             else {
                 sequence.RemoveAt(sequence.Count - 1);
+                motorSpeed.RemoveAt(motorSpeed.Count - 1);
+                linAct.RemoveAt(linAct.Count - 1);
                 seqUpdate();
                 if (tempSeqCount == 1) animateSeq(s1, reSize, shrinkTime);
                 else if (tempSeqCount == 2) animateSeq(s2, reSize, shrinkTime);
@@ -672,8 +676,14 @@ namespace ProSpikeV1
                 buttonActive[4] = true;
                 activeButtonReset(4);
                 MainText.Content = MHBall.Content;
-                DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
-                //logoImg.Visibility = Visibility.Collapsed;
+                if (_dataModel.demoModeVal)
+                {
+                    DrawBezier(310, 225, 640, 400, 420, -50, 500, -50);
+                }
+                else
+                {
+                    DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
+                }//logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c4, 50, growTime);
             }
             else
@@ -693,7 +703,7 @@ namespace ProSpikeV1
                 sequence.Add(4);
                 seqUpdate();
                 motorSpeed.Add(50);
-                linAct.Add(16);
+                linAct.Add(23);
             }
         }
         private void MHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -1005,15 +1015,22 @@ namespace ProSpikeV1
                     return;
 
                 }
+                await Task.Delay(timeout);
+                if (sequence[i] == 4 && demo == "6")
+                {
+                    data = motorSpeed[i].ToString() + "," + linAct[i].ToString() + ".1";
+                    serialPort.Write(data);
+                    await Task.Delay(2000);
+                }
                 
                 data = motorSpeed[i].ToString() + "," + linAct[i].ToString()+"." + demo;
                 serialPort.Write(data);
                 drawSeq(sequence[i], i + 1);
-                await Task.Delay(timeout);
+                
 
-                /*DateTime start = DateTime.Now;
-               
-                while ((DateTime.Now - start).TotalMilliseconds < timeout)
+                DateTime start = DateTime.Now;
+                //(DateTime.Now - start).TotalMilliseconds < timeout
+                while (true)
                 {
 
                     if (response.Contains("Ready"))
@@ -1030,7 +1047,7 @@ namespace ProSpikeV1
 
                     //// Wait for 100 milliseconds before checking again
                     Thread.Sleep(100);
-                }*/
+                }
 
             }
             serialPort.Write("0,"+homePoint+".5");

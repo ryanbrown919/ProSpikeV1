@@ -302,7 +302,7 @@ namespace ProSpikeV1
 
         public void timerSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            timerBox.Content = $"Time between sets: {timerSlider.Value + 7} seconds";
+            timerBox.Content = $"Time between sets: {timerSlider.Value + 1} seconds";
             
             _dataModel.userDelay = (int)timerSlider.Value;
         }
