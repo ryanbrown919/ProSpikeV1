@@ -609,7 +609,7 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
+                double y = defaultEndy - 150;
                 double x = defaultEndx - 500;
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
@@ -648,7 +648,7 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
+                double y = defaultEndy - 150;
                 double x = defaultEndx - 500;
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
@@ -692,7 +692,7 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
+                double y = defaultEndy - -50;
                 double x = defaultEndx - 500;
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
@@ -731,8 +731,8 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
-                double x = defaultEndx - 500;
+                double y = defaultEndy - 225;
+                double x = defaultEndx - 550;
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
@@ -770,8 +770,8 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
-                double x = defaultEndx - 500;
+                double y = defaultEndy - 150;
+                double x = defaultEndx - 680;
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
@@ -809,7 +809,7 @@ namespace ProSpikeV1
             else
             {
                 double y = defaultEndy - -100;
-                double x = defaultEndx - 500;
+                double x = defaultEndx - 730;
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
@@ -849,8 +849,18 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
-                double x = defaultEndx - 500;
+                double y;
+                double x;
+                if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx){
+                    y = defaultEndy - _dataModel.c1Controly1;
+                    x = defaultEndx - _dataModel.c1Controlx1;
+                }
+                else
+                {
+                    y = defaultEndy - _dataModel.c1Controly2;
+                    x = defaultEndx - _dataModel.c1Controlx2;
+                }
+                
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
@@ -892,8 +902,18 @@ namespace ProSpikeV1
                 //MainText.Content = "Custom 1";
 
                 //DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
-                double y = defaultEndy - -100;
-                double x = defaultEndx - 500;
+                double y;
+                double x;
+                if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx)
+                {
+                    y = defaultEndy - _dataModel.c2Controly1;
+                    x = defaultEndx - _dataModel.c2Controlx1;
+                }
+                else
+                {
+                    y = defaultEndy - _dataModel.c2Controly2;
+                    x = defaultEndx - _dataModel.c2Controlx2;
+                }
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
@@ -931,8 +951,18 @@ namespace ProSpikeV1
             }
             else
             {
-                double y = defaultEndy - -100;
-                double x = defaultEndx - 500;
+                double y;
+                double x;
+                if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx)
+                {
+                    y = defaultEndy - _dataModel.c3Controly1;
+                    x = defaultEndx - _dataModel.c3Controlx1;
+                }
+                else
+                {
+                    y = defaultEndy - _dataModel.c3Controly2;
+                    x = defaultEndx - _dataModel.c3Controlx2;
+                }
                 double customLinAct = (x / y * 30 + 14);
                 Debug.WriteLine((int)customLinAct);
                 if (customLinAct > 25)
