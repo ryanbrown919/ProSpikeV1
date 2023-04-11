@@ -201,16 +201,16 @@
             <Rectangle x:Name="s8" HorizontalAlignment="Left" Height="4" Margin="4,0,0,20" Stroke="Transparent" VerticalAlignment="Bottom" Width="80" Fill="Black" RadiusX="4" RadiusY="4"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="10">
-            <Rectangle x:Name="c1"  Grid.Row="0" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4" />
-            <Rectangle x:Name="c2"  Grid.Row="1" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c3"  Grid.Row="2" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c4"  Grid.Row="3" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c5"  Grid.Row="4" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c6"  Grid.Row="5" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c7"  Grid.Row="6" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c8"  Grid.Row="7" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c9"  Grid.Row="8" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
-            <Rectangle x:Name="c10" Grid.Row="9" HorizontalAlignment="Right" Width="10" Margin="0,5,420,5" Height="70"  Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c1"  Grid.Row="0" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4" />
+            <Rectangle x:Name="c2"  Grid.Row="1" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c3"  Grid.Row="2" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c4"  Grid.Row="3" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c5"  Grid.Row="4" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c6"  Grid.Row="5" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c7"  Grid.Row="6" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c8"  Grid.Row="7" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c9"  Grid.Row="8" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70" Grid.ColumnSpan="2"  RadiusX="4" RadiusY="4"/>
+            <Rectangle x:Name="c10" Grid.Row="9" HorizontalAlignment="Right" Width="10" Margin="0,7,420,7" Height="70"  Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
         </StackPanel>
         <ToggleButton  Name="StartStop" Style="{StaticResource MyToggleButtonStyle}" Checked="StartStop_Checked" Unchecked="StartStop_Unchecked" HorizontalAlignment="Center" Height="90" Margin="0,39,0,0" Grid.RowSpan="2" Grid.Row="8" VerticalAlignment="Top" Width="100"/>
 
