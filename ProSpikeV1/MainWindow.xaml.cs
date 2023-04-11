@@ -55,6 +55,7 @@ namespace ProSpikeV1
         //public AppViewModel AppViewModel { get; set; }
         private SharedDataModel _dataModel;
 
+        //public SerialPort serialPort = new SerialPort();
         private bool isRunning = false;
         private int delay = 3000;
         public int defaultStartx = 125;
@@ -102,6 +103,8 @@ namespace ProSpikeV1
 
 
             }
+            //SerialPort serialPort = new SerialPort();
+           
             _dataModel.custom1 = false;
             _dataModel.custom2 = false;
             _dataModel.custom3 = false;
@@ -954,18 +957,25 @@ namespace ProSpikeV1
             resetSeq();
             backArrow.IsEnabled = false;
             Garbage.IsEnabled = false;
-            SerialPort serialPort = new SerialPort();
-            if (SerialPort.GetPortNames().Contains("COM4"))
+            SerialPort serialPort = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
+            serialPort.Open();
+            /*if (SerialPort.GetPortNames().Contains("COM4"))
             {
                 serialPort.PortName = "COM4";
+                serialPort.BaudRate = 9600;
+                serialPort.Open();
             }
             else if (SerialPort.GetPortNames().Contains("COM3"))
             {
                 serialPort.PortName = "COM3";
+                serialPort.BaudRate = 9600;
+                serialPort.Open();
             }
             else if (SerialPort.GetPortNames().Contains("COM5"))
             {
                 serialPort.PortName = "COM5";
+                serialPort.BaudRate = 9600;
+                serialPort.Open();
             }
             
             else
@@ -973,18 +983,17 @@ namespace ProSpikeV1
                 System.Windows.MessageBox.Show("Arduino not found.");
                 StartStop.IsChecked = false;
                 return;
-            }
+            }*/
 
             string data;
             string response = "";
-            string demo = "";
+            string demo = "0";
             if (_dataModel.demoModeVal == true)
             {
                 demo = "6";
             }
             int timeout = (int)_dataModel.userDelay *1000;
-            serialPort.BaudRate = 9600;
-            serialPort.Open();
+            
             
 
             for (int i = 0; i < sequence.Count; i++)

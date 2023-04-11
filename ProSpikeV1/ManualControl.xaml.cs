@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ProSpikeV1
 {
@@ -27,8 +28,9 @@ namespace ProSpikeV1
         //public int linActVal;
         //public int motorSpeed;
         public String data;
-        public SerialPort serialPort = new SerialPort();
+        //public SerialPort serialPort = new SerialPort();
         public string[] ports = SerialPort.GetPortNames();
+        public SerialPort serialPort = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
         public ManualControl(SharedDataModel dataModel)
         {
             InitializeComponent();
@@ -37,30 +39,36 @@ namespace ProSpikeV1
 
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            if (SerialPort.GetPortNames().Contains("COM4"))
+            
+            /*if (SerialPort.GetPortNames().Contains("COM4"))
             {
                 serialPort.PortName = "COM4";
-            }
-            else if (SerialPort.GetPortNames().Contains("COM5"))
-            {
-                serialPort.PortName = "COM5";
+                serialPort.BaudRate = 9600;
+                serialPort.Open();
             }
             else if (SerialPort.GetPortNames().Contains("COM3"))
             {
                 serialPort.PortName = "COM3";
+                serialPort.BaudRate = 9600;
+                serialPort.Open();
+            }
+            else if (SerialPort.GetPortNames().Contains("COM5"))
+            {
+                serialPort.PortName = "COM5";
+                serialPort.BaudRate = 9600;
+                serialPort.Open();
             }
             else
             {
-
-                return;
-            }
-
+                MessageBox.Show("Error");
+            }*/
+            serialPort.Open();
            
 
-            serialPort.BaudRate = 9600;
-            serialPort.Open();
+           // serialPort.BaudRate = 9600;
+            //serialPort.Open();
 
-            linAct.Value = 14;
+            //linAct.Value = 14;
 
             //serialPort.Write(sequence[i].ToString());
             //await Task.Delay(delay);
@@ -80,11 +88,14 @@ namespace ProSpikeV1
         private void SetSliders_Click(object sender, RoutedEventArgs e)
         {
             data = motorSpeed.Value.ToString() + "," + (linAct.Value + 5).ToString() + "." + "5";
+
+            Debug.WriteLine("Set SLiders: " + data); 
             serialPort.Write(data);
         }
         private void LoadBall_Click(object sender, RoutedEventArgs e)
         {
             data = motorSpeed.Value.ToString() + "," + (linAct.Value + 5).ToString() + "." + "1";
+            Debug.WriteLine(data);
             serialPort.Write(data);
         }
 
