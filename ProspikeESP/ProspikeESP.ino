@@ -90,7 +90,7 @@ const int dirPin1 = 2;
 const int stepPin1 = 3; 
 const int enablePin = 4;
 int dist = 630;
-unsigned long timeout = 6000;
+unsigned long timeout = 12000;
 unsigned long startTime;
 AccelStepper stepper(AccelStepper::DRIVER, stepPin1, dirPin1);
 
