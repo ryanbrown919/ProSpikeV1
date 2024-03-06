@@ -14,56 +14,66 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.ComponentModel;
-//using System.Drawing;
-//using System.Drawing.Printing;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-//using System.Drawing;
 using System.Windows.Media.Animation;
 using System.Threading;
 using System.Reflection;
 using System.Diagnostics;
 
+/*
+Author: Ryan Brown
+Date: April 2023
+
+This program was designed to interact with a series of arduinos and other electrical components as the user interface for ProSpike, 
+    a volleyball setting machien created for IGEN 330 design course
+
+This GUI allows users to choose a sequence of pre-configured sets and well as custom sets with a graphical representation in real-time
+*/
+
+
+
 namespace ProSpikeV1
 {
-    /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
 
 
-        //public class SerialPort ; System.ComponentModel.Component;
 
         private Path myPath;
         private PathGeometry myPathGeometry;
         static int reSize = 4;
         static float growTime = 0.5f;
         static float shrinkTime = 0.3f;
-        //private Path bezPath;
-        //private Image image;
         static SerialPort port;
         List<int> sequence = new List<int>();
         List<int> motorSpeed = new List<int>();
         List<int> linAct = new List<int>();
-        //List<Color> colorList = new List<Color> { Colors.Red, Colors.Orange, Colors.Yellow, Colors.Blue, Colors.Green, };
+
+        // These are the colours used for visually differentiating the different buttons and set types, along with their window.shapes equivalent colour
         string[] colours = { "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Cyan", "Violet", "Brown", "Lime" };
         Dictionary<string, Color> colourList = new Dictionary<string, Color> { { "White", Colors.White }, { "Black", Colors.Black }, { "Red", Colors.Red }, { "Lime", Colors.Lime }, { "Magenta", Colors.Magenta }, { "Cyan", Colors.Cyan }, { "Orange", Colors.Orange }, { "Brown", Colors.BurlyWood }, { "Yellow", Colors.Yellow }, { "Indigo", Colors.Indigo }, { "Violet", Colors.Violet }, { "Blue", Colors.Blue }, { "Green", Colors.Green } };
 
+        
         public bool[] buttonActive = new bool[11];
-        //public AppViewModel AppViewModel { get; set; }
+
+        // This data model allowed variables to be shared between the main page and the settings page where custom set parameters are set
         private SharedDataModel _dataModel;
 
-        //public SerialPort serialPort = new SerialPort();
         private bool isRunning = false;
         private int delay = 3000;
+
+        // Sets the defualt start position for the volleyball, seen as the 2/3 mark along the net where the setter traditionally starts from
         public int defaultStartx = 125;
         public int defaultStarty = 225;
         public int defaultEndx = 640;
         public int defaultEndy = 400;
         public bool custom = false;
+
+        // This represents the extension of the linear actuator in cm, and was determined empirically to be the horizontal point for the frame
         public string homePoint = "14";
         public int sizeGrow = 70;
         double distanceToAxis = 26.67;
@@ -72,22 +82,19 @@ namespace ProSpikeV1
         public MainWindow()
         {
 
+
+            // Initialize the GUI with attributes and interactive elements
+
             InitializeComponent();
             _dataModel = new SharedDataModel();
-            //AppViewModel viewModel = new AppViewModel();
             _dataModel.SelectedComboBoxIndex = 0;
-            //_dataModel.demoModeVal = false;
-            //_dataModel.xSliderValue1= 600;
-            //_dataModel.ySliderValue1= 325;
-            //_dataModel.xSliderValue2 = 0;
-            //_dataModel.ySliderValue2 = 325;
-            //_dataModel.xSliderValue3 = 250;
-            //_dataModel.ySliderValue3 = 325;
-            //var settingsView = new SettingsView(_dataModel);
+            
             _dataModel.PropertyChanged += DataModel_PropertyChanged;
-            //this.DataContext = viewModel;
+
+            // Parameter used to differ men's and women's net height
             _dataModel.netHeight = 3;
 
+            // Adding colours to the buttons as shapes so they can be configured and trandformed in real-time
             c1.Fill = new SolidColorBrush(colourList[colours[1]]);
             c2.Fill = new SolidColorBrush(colourList[colours[2]]);
             c3.Fill = new SolidColorBrush(colourList[colours[3]]);
@@ -98,24 +105,18 @@ namespace ProSpikeV1
             c8.Fill = new SolidColorBrush(colourList[colours[8]]);
             c9.Fill = new SolidColorBrush(colourList[colours[9]]);
             c10.Fill = new SolidColorBrush(colourList[colours[10]]);
-            if (port == null) {
-                //SerialPort port = new SerialPort("COM5", 115200);
-                //port.Open();
-
-
-            }
-            //SerialPort serialPort = new SerialPort();
+            
            
+           // Initialize the custom sets as disabled until user enables them
             _dataModel.custom1 = false;
             _dataModel.custom2 = false;
             _dataModel.custom3 = false;
-
-
             Custom1.IsEnabled = _dataModel.custom1;
             Custom2.IsEnabled = _dataModel.custom2;
             Custom3.IsEnabled = _dataModel.custom3;
 
-            //s1.Fill = new SolidColorBrush(red) ;
+
+            // initialize the slider values with default values
             _dataModel.xSliderValue1 = 600;
             _dataModel.ySliderValue1 = 300;
             _dataModel.xSliderValue2 = 300;
@@ -134,9 +135,10 @@ namespace ProSpikeV1
             _dataModel.c3Controly1 = -100;
             _dataModel.c3Controlx2 = 300;
             _dataModel.c3Controly2 = -100;
-            //_dataModel.AreButtonsEnabled = false;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+
+        // Function used temporarily with DEMO mode for Deisgn and Innovation day presentation
         private void DataModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(_dataModel.demoModeVal))
@@ -151,6 +153,8 @@ namespace ProSpikeV1
                 }
             }
         }
+
+        // Button to reset sequence to blanks 
         public void activeButtonReset(int index)
         {
             for (int i = 1; i < 11; i++)
@@ -162,6 +166,8 @@ namespace ProSpikeV1
             }
 
         }
+
+        // Function will grow or shrink targetpoxes to indicate which set was selected in sequence bar at bottom of screen
         public void animateSeq(Rectangle targetBox, int size, float Time)
         {
 
@@ -176,6 +182,9 @@ namespace ProSpikeV1
             storyboard.Begin();
 
         }
+
+        // Function grows the colours element of the set selection buttons so users on touch screen can easily see which set is currently picked
+
         public void animateSel(Rectangle targetBox, int size, float Time)
         {
 
@@ -195,8 +204,7 @@ namespace ProSpikeV1
         {
             int tempLen = sequence.Count;
             
-            //if (tempLen < 8)
-            //{
+            
             if (sequence.Count > 8)
             {
                 return;
@@ -210,21 +218,14 @@ namespace ProSpikeV1
             else if (sequence.Count == 7) animateSeq(s7, sizeGrow, growTime);
             else if (sequence.Count == 8) animateSeq(s8, sizeGrow, growTime);
 
-            //for (int c = tempLen; c < 8; c++;
-            //sequence.Add(0);
-            //}
+           
 
             List<int> Zeros = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-            //List<int> tempList = new List<int>
             for (int j = 0; j < tempLen; j++) {
 
                 Zeros[j] += +sequence[j];
             }
-
-            //for (int i = 0; i <= sequence.Count; i++)
-            //{
-
 
 
             // Get the i-th element that represents the button order
@@ -238,7 +239,7 @@ namespace ProSpikeV1
             s8.Fill = new SolidColorBrush(colourList[colours[Zeros[7]]]);
             // Set the fill color based on whether the button at that index has been pressed or not
 
-            //}
+            
         }
         private void resetSel(){
             animateSel(c1, 10, shrinkTime);
@@ -292,10 +293,6 @@ namespace ProSpikeV1
             }
         }
 
-        bool arcDisplayed = false;
-        // drawArc(xradius, yradius, xterminalpoint, yterminalpoint, beginningx, beginningy)
-        // int xradius, int yradius, int pointx, int pointy, int startx, int starty
-        //int startPointx, int startPointy, int endPointx, int endPointy, int controlPointx, int controlPointy
         private void drawArc(int xradius, int yradius, int pointx, int pointy, int startx, int starty)
         {
             // Deletes existing arc segments before redrawing
@@ -336,12 +333,13 @@ namespace ProSpikeV1
 
             
         }
-        //bool bezierDisplayed = false;
+
         private void moveBall(int newX, int newY)
         {
             Canvas.SetLeft(volleyballIcon, newX - 25);
             Canvas.SetTop(volleyballIcon, newY - 25);
         }
+
         private void DrawBezier(int startx, int starty, int endx, int endy, int controlx1, int controly1, int controlx2, int controly2)
         {
             int tempx, tempy, temp2x, temp2y;
@@ -554,7 +552,6 @@ namespace ProSpikeV1
 
         }
 
-        // drawArc(xradius, yradius, xterminalpoint, yterminalpoint, beginningx, beginningy)
         private void PHBall_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[1] == false)
@@ -564,7 +561,6 @@ namespace ProSpikeV1
                 activeButtonReset(1);
                 MainText.Content = PHBall.Content;
                 DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c1, 50, growTime);
             }
             else
@@ -588,12 +584,6 @@ namespace ProSpikeV1
                 seqUpdate();
             }
         }
-        private void PHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //MainText.Content = PHBall.Content;
-            //DrawBezier(150, 225, 640, 400, 300, -100, 500, -100);
-            
-        }
 
         private void PShoot_Click(object sender, RoutedEventArgs e)
         {
@@ -604,7 +594,6 @@ namespace ProSpikeV1
                 activeButtonReset(2);
                 MainText.Content = PShoot.Content;
                 DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c2, 50, growTime);
             }
             else
@@ -621,17 +610,11 @@ namespace ProSpikeV1
                 {
                     customLinAct = 5;
                 }
-                //port.Write("2");
                 sequence.Add(2);
                 seqUpdate();
                 motorSpeed.Add(54);
                 linAct.Add((int)customLinAct);
             }
-        }
-        private void PShoot_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //MainText.Content = PShoot.Content;
-            //DrawBezier(150, 225, 640, 400, 300, 150, 500, 150);
         }
 
         private void ThirtyThree_Click(object sender, RoutedEventArgs e)
@@ -643,7 +626,6 @@ namespace ProSpikeV1
                 activeButtonReset(3);
                 MainText.Content = ThirtyThree.Content;
                 DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c3, 50, growTime);
             }
             else
@@ -666,11 +648,7 @@ namespace ProSpikeV1
                 linAct.Add((int)customLinAct);
             }
         }
-        private void ThirtyThree_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //MainText.Content = ThirtyThree.Content;
-            //DrawBezier(310, 225, 640, 400, 420, 150, 500, 150);
-        }
+        
 
         private void MHBall_Click(object sender, RoutedEventArgs e)
         {
@@ -687,7 +665,7 @@ namespace ProSpikeV1
                 else
                 {
                     DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
-                }//logoImg.Visibility = Visibility.Collapsed;
+                }
                 animateSel(c4, 50, growTime);
             }
             else
@@ -704,17 +682,11 @@ namespace ProSpikeV1
                 {
                     customLinAct = 5;
                 }
-                //DrawBezier();
                 sequence.Add(4);
                 seqUpdate();
                 motorSpeed.Add(50);
                 linAct.Add((int)customLinAct);
             }
-        }
-        private void MHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //MainText.Content = MHBall.Content;
-            //DrawBezier(480, 225, 640, 400, 530, -50, 550, -50);
         }
 
         private void MQuick_Click(object sender, RoutedEventArgs e)
@@ -726,7 +698,6 @@ namespace ProSpikeV1
                 activeButtonReset(5);
                 MainText.Content = MQuick.Content;
                 DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c5, 50, growTime);
             }
             else
@@ -750,11 +721,6 @@ namespace ProSpikeV1
             }
 
         }
-        private void MQuick_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //MainText.Content = MQuick.Content;
-            //DrawBezier(480, 225, 640, 400, 530, 225, 550, 225);
-        }
 
         private void MSlide_Click(object sender, RoutedEventArgs e)
         {
@@ -765,7 +731,6 @@ namespace ProSpikeV1
                 activeButtonReset(6);
                 DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
                 MainText.Content = MSlide.Content;
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c6, 50, growTime);
             }
             else
@@ -788,11 +753,6 @@ namespace ProSpikeV1
                 linAct.Add((int)customLinAct);
             }
         }
-        private void MSlide_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //DrawBezier(740, 225, 640, 400, 680, 150, 720, 150);
-            //MainText.Content = MSlide.Content;
-        }
 
         private void OHBall_Click(object sender, RoutedEventArgs e)
         {
@@ -803,7 +763,6 @@ namespace ProSpikeV1
                 activeButtonReset(7);
                 DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
                 MainText.Content = OHBall.Content;
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c7, 50, growTime);
             }
             else
@@ -826,12 +785,6 @@ namespace ProSpikeV1
                 linAct.Add((int)customLinAct);
             }
         }
-        private void OHBall_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            
-            //DrawBezier(820, 225, 640, 400, 730, -100, 750, -100);
-            //MainText.Content = OHBall.Content;
-        }
 
         private void Custom1_Click(object sender, RoutedEventArgs e)
         {
@@ -844,7 +797,6 @@ namespace ProSpikeV1
                 custom = true;
                 MainText.Content = "Custom 1";
                 DrawBezier((_dataModel.xSliderValue1 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c1Controlx1, _dataModel.c1Controly1, _dataModel.c1Controlx2, _dataModel.c1Controly2);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c8, 50, growTime);
             }
             else
@@ -877,15 +829,10 @@ namespace ProSpikeV1
                 seqUpdate();
             }
         }
-        private void Custom1_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //custom = true;
-            //moveBall(-250, 100);
-        }
+    
 
         private void Custom2_Click(object sender, RoutedEventArgs e)
         {
-            //custom = false;
             if (buttonActive[9] == false)
             {
                 resetSel();
@@ -894,14 +841,10 @@ namespace ProSpikeV1
                 custom = true;
                 MainText.Content = "Custom 2";
                 DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c9, 50, growTime);
             }
             else
             {
-                //MainText.Content = "Custom 1";
-
-                //DrawBezier((_dataModel.xSliderValue2 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c2Controlx1, _dataModel.c2Controly1, _dataModel.c2Controlx2, _dataModel.c2Controly2);
                 double y;
                 double x;
                 if ((_dataModel.xSliderValue1 + defaultStartx) > defaultEndx)
@@ -930,14 +873,8 @@ namespace ProSpikeV1
                 seqUpdate();
             }
         }
-        private void Custom2_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-
-            //MainText.Content = "Custom 2";
-        }
         private void Custom3_Click(object sender, RoutedEventArgs e)
         {
-            //custom = false;
             if (buttonActive[10] == false)
             {
                 resetSel();
@@ -946,7 +883,6 @@ namespace ProSpikeV1
                 MainText.Content = "Custom 3";
                 custom = true;
                 DrawBezier((_dataModel.xSliderValue3 + defaultStartx), defaultStarty, defaultEndx, defaultEndy, _dataModel.c3Controlx1, _dataModel.c3Controly1, _dataModel.c3Controlx2, _dataModel.c3Controly2);
-                //logoImg.Visibility = Visibility.Collapsed;
                 animateSel(c10, 50, growTime);
             }
             else
@@ -981,12 +917,6 @@ namespace ProSpikeV1
             }
 
         }
-        private void Custom3_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            
-            //MainText.Content = "Custom 3";
-
-        }
 
         private void SettingsPage_Click(object sender, RoutedEventArgs e)
         {
@@ -1010,32 +940,7 @@ namespace ProSpikeV1
             Garbage.IsEnabled = false;
             SerialPort serialPort = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
             serialPort.Open();
-            /*if (SerialPort.GetPortNames().Contains("COM4"))
-            {
-                serialPort.PortName = "COM4";
-                serialPort.BaudRate = 9600;
-                serialPort.Open();
-            }
-            else if (SerialPort.GetPortNames().Contains("COM3"))
-            {
-                serialPort.PortName = "COM3";
-                serialPort.BaudRate = 9600;
-                serialPort.Open();
-            }
-            else if (SerialPort.GetPortNames().Contains("COM5"))
-            {
-                serialPort.PortName = "COM5";
-                serialPort.BaudRate = 9600;
-                serialPort.Open();
-            }
-            
-            else
-            {
-                System.Windows.MessageBox.Show("Arduino not found.");
-                StartStop.IsChecked = false;
-                return;
-            }*/
-
+        
             string data;
             string response = "";
             string demo = "0";
@@ -1071,7 +976,6 @@ namespace ProSpikeV1
                 
 ;
                 DateTime start = DateTime.Now;
-                //(DateTime.Now - start).TotalMilliseconds < timeout
                 while (true)
                 {
                     response = serialPort.ReadLine();
@@ -1088,7 +992,7 @@ namespace ProSpikeV1
                         return;
                     }
 
-                    //// Wait for 100 milliseconds before checking again
+                    // Wait for 100 milliseconds before checking again
                     Thread.Sleep(100);
                 }
                 response = "";
@@ -1104,7 +1008,6 @@ namespace ProSpikeV1
             resetSeq();
             backArrow.IsEnabled = true;
             Garbage.IsEnabled = true;
-            //if serialPort()
         }
     }
 }
