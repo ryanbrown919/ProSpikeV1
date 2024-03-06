@@ -200,6 +200,8 @@ namespace ProSpikeV1
             storyboardSel.Begin();
 
         }
+
+        // Update the sequence visually and logically if an update occurs
         public void seqUpdate()
         {
             int tempLen = sequence.Count;
@@ -241,6 +243,8 @@ namespace ProSpikeV1
 
             
         }
+
+        // Reset the animations is reset button is selected
         private void resetSel(){
             animateSel(c1, 10, shrinkTime);
             animateSel(c2, 10, shrinkTime);
@@ -253,6 +257,8 @@ namespace ProSpikeV1
             animateSel(c9, 10, shrinkTime);
             animateSel(c10, 10, shrinkTime);
         }
+
+        // If garbage icon is clicked, clear the current sequence visually and in stored array
         private void Garbage_Click(object sender, RoutedEventArgs e)
         {
             
@@ -270,6 +276,8 @@ namespace ProSpikeV1
             animateSeq(s8, reSize, shrinkTime);
             seqUpdate();
         }
+
+        // If back arrow icon is clicked, get rid of the last element in sequwnce list and visually undo animation
         private void backArrow_Click(object sender, RoutedEventArgs e)
         {
             int tempSeqCount = sequence.Count;
@@ -293,6 +301,8 @@ namespace ProSpikeV1
             }
         }
 
+
+        // Outdated function meant to draw the volleyball's trajectory
         private void drawArc(int xradius, int yradius, int pointx, int pointy, int startx, int starty)
         {
             // Deletes existing arc segments before redrawing
@@ -330,16 +340,17 @@ namespace ProSpikeV1
             
              arcDisplayed = true;
 
-
-            
         }
 
+        // Move the ball sprite to specified location on canvas
         private void moveBall(int newX, int newY)
         {
             Canvas.SetLeft(volleyballIcon, newX - 25);
             Canvas.SetTop(volleyballIcon, newY - 25);
         }
 
+        // Function creates a bezier curve using start, end and two control points to simulate ball trajectory.
+        //      Arc is placed over volleyball net image and behind volleyball sprite
         private void DrawBezier(int startx, int starty, int endx, int endy, int controlx1, int controly1, int controlx2, int controly2)
         {
             int tempx, tempy, temp2x, temp2y;
@@ -351,6 +362,10 @@ namespace ProSpikeV1
                 if (lastElement is Path path && path.Tag as string == "bezier")
                     myCanvas.Children.RemoveAt(myCanvas.Children.Count - 1);
             }
+
+            // Nature of bezier curve meant of end of arc was to the right or left of start point the behaviour would not work correctly,
+            //      so if the end is futher to the right than the start, the start and end values are swapped behind the scenes, visually looks the same
+
             if (custom == false)
             {
                 if (startx > endx)
@@ -422,6 +437,8 @@ namespace ProSpikeV1
             
 
         }
+
+        // Demo mode added for design and innovation day limiting power amd aim to designated target location
         private void HandleDemoButtonCheckedChanged(object sender, bool isChecked)
         {
             if (isChecked)
@@ -435,6 +452,8 @@ namespace ProSpikeV1
                 MHBall.Content = "Middle High Ball";
             }
         }
+
+        // Coordinates the visual sequence elements depending on situation
         public void resetSeq()
         {
             for (int i = 0; i <= sequence.Count; i++)
@@ -468,6 +487,8 @@ namespace ProSpikeV1
                 }
             }
         }
+
+        // Coordiantes arc creation based on whoch button was pressed, using empirical magic numbers for concrete sets and saved values for custom sets
         public void drawSeq(int index, int set)
         {
             switch (index) { 
@@ -552,6 +573,8 @@ namespace ProSpikeV1
 
         }
 
+
+        // Events if Power High Ball button is pressed
         private void PHBall_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[1] == false)
@@ -584,6 +607,8 @@ namespace ProSpikeV1
                 seqUpdate();
             }
         }
+        
+        // Events if Power Shoot button is pressed
 
         private void PShoot_Click(object sender, RoutedEventArgs e)
         {
@@ -617,6 +642,8 @@ namespace ProSpikeV1
             }
         }
 
+        // Events if Thirty Three button is pressed
+
         private void ThirtyThree_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[3] == false)
@@ -649,7 +676,8 @@ namespace ProSpikeV1
             }
         }
         
-
+        // Events if Middle High Ball button is pressed
+        //      Special instructions for demo mode
         private void MHBall_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[4] == false)
@@ -689,6 +717,8 @@ namespace ProSpikeV1
             }
         }
 
+
+        // Events if Middle Quick button is pressed
         private void MQuick_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[5] == false)
@@ -722,6 +752,7 @@ namespace ProSpikeV1
 
         }
 
+        // Events if Middle Slide button is pressed
         private void MSlide_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[6] == false)
@@ -754,6 +785,7 @@ namespace ProSpikeV1
             }
         }
 
+        // Events if Offside High Ball button is pressed
         private void OHBall_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[7] == false)
@@ -786,6 +818,7 @@ namespace ProSpikeV1
             }
         }
 
+        // Events if Custom 1 button is pressed
         private void Custom1_Click(object sender, RoutedEventArgs e)
         {
             //custom = false;
@@ -830,7 +863,7 @@ namespace ProSpikeV1
             }
         }
     
-
+        // Events if Custom 2 button is pressed
         private void Custom2_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[9] == false)
@@ -873,6 +906,8 @@ namespace ProSpikeV1
                 seqUpdate();
             }
         }
+
+        // Events if Custom 3button is pressed
         private void Custom3_Click(object sender, RoutedEventArgs e)
         {
             if (buttonActive[10] == false)
@@ -918,6 +953,7 @@ namespace ProSpikeV1
 
         }
 
+        // If settigns icon is clikced, a new window opens with various srttings and sliders dynamically showing custom sets
         private void SettingsPage_Click(object sender, RoutedEventArgs e)
         {
             Custom1.IsEnabled = true;
@@ -927,6 +963,7 @@ namespace ProSpikeV1
             setView.Show();
         }
 
+        // Once the start button is selected, go through process of initializing machien and setting commands as well as cycling through visualization of sets on screen
         private async void StartStop_Checked(object sender, RoutedEventArgs e)
         {   await Task.Delay(200);
             if (sequence.Count == 0){
